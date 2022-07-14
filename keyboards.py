@@ -1,5 +1,12 @@
 from typing import Tuple
+import constants
 
 
 def get_main_menu() -> Tuple[str, ...]:
-    return ()
+    return (
+        constants.LOOK_SETS,
+        constants.LOOK_SET_INFO,
+        constants.LEARN_SET,
+        constants.ADD_SET,
+        constants.DELETE_SET,
+    )
