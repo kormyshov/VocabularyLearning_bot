@@ -30,6 +30,11 @@ class Controller:
         pass
 
     @logger
+    def go_to_main_menu(self, user: User) -> None:
+        user.go_to_main_menu()
+        self.viewer.view(user.id, constants.MENU, keyboards.get_main_menu())
+
+    @logger
     def operate(self, user_id: str, text: str):
         user = User(user_id, self.database)
 
@@ -37,6 +42,8 @@ class Controller:
             self.look_sets(user)
         elif text == constants.LOOK_SET_INFO:
             self.look_set_info(user)
+        elif text == constants.BACK:
+            self.go_to_main_menu(user)
         else:
             if user.is_look_set_info():
                 self.look_info_of_set(user, int(text))

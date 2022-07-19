@@ -50,3 +50,7 @@ class User:
     @logger
     def is_look_set_info(self) -> bool:
         return self.state == UserState.LOOK_SET_INFO
+
+    @logger
+    def go_to_main_menu(self) -> None:
+        self.state = UserState.START
