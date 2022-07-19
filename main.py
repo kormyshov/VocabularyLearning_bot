@@ -15,4 +15,4 @@ def start_message(message):
 def message_reply(message):
     db = Dictbase()
     viewer = TelegramViewer()
-    Controller(db, viewer).operate(str(message.chat.id), message.from_user.first_name, message.text)
+    Controller(db, viewer).operate(str(message.chat.id), message.text)
