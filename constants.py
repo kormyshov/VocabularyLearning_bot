@@ -7,3 +7,5 @@ LOOK_SET_INFO = 'Look at set info'
 ADD_SET = 'Add set'
 DELETE_SET = 'Delete set'
 LEARN_SET = 'Learn set'
+
+YOU_DONT_HAVE_SET = 'You don\'t have any set'

@@ -12,7 +12,12 @@ class Controller:
 
     @logger
     def look_sets(self, user: User) -> None:
-        pass
+        is_empty = True
+        for user_set in user.get_sets():
+            self.viewer.view(user.id, '{}. {}'.format(user_set.id, user_set.name))
+            is_empty = False
+        if is_empty:
+            self.viewer.view(user.id, constants.YOU_DONT_HAVE_SET)
 
     @logger
     def operate(self, user_id: str, text: str):
@@ -20,3 +25,5 @@ class Controller:
 
         if text == constants.LOOK_SETS:
             self.look_sets(user)
+
+        user.save()
