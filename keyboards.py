@@ -10,3 +10,9 @@ def get_main_menu() -> Tuple[str, ...]:
         constants.ADD_SET,
         constants.DELETE_SET,
     )
+
+
+def get_back() -> Tuple[str, ...]:
+    return (
+        constants.BACK,
+    )

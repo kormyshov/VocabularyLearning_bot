@@ -42,3 +42,11 @@ class User:
     @logger
     def get_sets(self) -> Iterable[SetORM]:
         return self.database.get_user_sets(self.id)
+
+    @logger
+    def look_set_info(self) -> None:
+        self.state = UserState.LOOK_SET_INFO
+
+    @logger
+    def is_look_set_info(self) -> bool:
+        return self.state == UserState.LOOK_SET_INFO
