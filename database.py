@@ -40,8 +40,15 @@ class Database(AbstractBase):
 
     @logger
     def set_user_info(self, user: UserORM) -> None:
-        pass
+        def upsert(session):
+            return session.transaction().execute(
+                'UPSERT INTO `users` (`id`, `state`, `data`) VALUES ("{}", {}, {});'.format(user.id, user.state, user.data),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        self.pool.retry_operation_sync(upsert)
 
     @logger
     def get_user_sets(self, user_id: str) -> Iterable[SetORM]:
-        pass
+        return ()  # TODO: get select from db
