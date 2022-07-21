@@ -10,7 +10,11 @@ from abstract_base import AbstractBase, UserDoesntExistInDB
 
 class Database(AbstractBase):
     def __init__(self):
-        self.driver = ydb.Driver(endpoint=os.getenv('YDB_ENDPOINT'), database=os.getenv('YDB_DATABASE'))
+        self.driver = ydb.Driver(
+            endpoint=os.getenv('YDB_ENDPOINT'),
+            database=os.getenv('YDB_DATABASE'),
+            credentials=ydb.AccessTokenCredentials(os.getenv('YDB_ACCESS_TOKEN_CREDENTIALS')),
+        )
         self.driver.wait(fail_fast=True, timeout=5)
         self.pool = ydb.SessionPool(self.driver)
 
