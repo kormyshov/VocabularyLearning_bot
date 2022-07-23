@@ -46,7 +46,7 @@ jobs:
         uses: yc-actions/yc-sls-function@v2.0.0
         with:
           yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
-          service_account: 'vocabulary'
+          service-account: 'vocabulary'
           folder-id: 'b1g34n0j9lktsmu9ijjf'
           function-name: 'vocabulary-learning-bot'
           runtime: 'python39'
