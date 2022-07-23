@@ -56,7 +56,7 @@ jobs:
             BOT_TOKEN=${{ secrets.BOT_TOKEN }}
             YDB_ENDPOINT=${{ secrets.YDB_ENDPOINT }}
             YDB_DATABASE=${{ secrets.YDB_DATABASE }}
-            YDB_ACCESS_TOKEN_CREDENTIALS=${{ secrets.YDB_ACCESS_TOKEN_CREDENTIALS }}
+            USE_METADATA_CREDENTIALS=1
           include: |
             .
           exclude: |
