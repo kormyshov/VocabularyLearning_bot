@@ -21,12 +21,17 @@ class Controller:
             self.viewer.view(user.id, constants.YOU_DONT_HAVE_SET)
 
     @logger
-    def look_set_info(self, user: User) -> None:
-        user.look_set_info()
-        self.viewer.view(user.id, constants.ENTER_SET_ID, keyboards.get_back())
+    def request_to_look_set_info(self, user: User) -> None:
+        user_set_names = user.request_to_look_set_info()
+        keyboard = keyboards.get_sets(user_set_names)
+        if len(keyboard) == 1:
+            user.go_to_main_menu()
+            self.viewer.view(user.id, constants.YOU_DONT_HAVE_SET, keyboards.get_main_menu())
+        else:
+            self.viewer.view(user.id, constants.SELECT_SET, keyboard)
 
     @logger
-    def look_info_of_set(self, user: User, set_id: int) -> None:
+    def look_set_info(self, user: User, set_name: str) -> None:
         pass
 
     @logger
@@ -41,11 +46,11 @@ class Controller:
         if text == constants.LOOK_SETS:
             self.look_sets(user)
         elif text == constants.LOOK_SET_INFO:
-            self.look_set_info(user)
+            self.request_to_look_set_info(user)
         elif text == constants.BACK:
             self.go_to_main_menu(user)
         else:
-            if user.is_look_set_info():
-                self.look_info_of_set(user, int(text))
+            if user.is_request_to_look_set_info():
+                self.look_set_info(user, text)
 
         user.save()

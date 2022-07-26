@@ -44,12 +44,13 @@ class User:
         return self.database.get_user_sets(self.id)
 
     @logger
-    def look_set_info(self) -> None:
-        self.state = UserState.LOOK_SET_INFO
+    def request_to_look_set_info(self) -> Iterable[str]:
+        self.state = UserState.REQUEST_TO_LOOK_SET_INFO
+        return map(lambda e: '{}: {}'.format(e.id, e.name), self.get_sets())
 
     @logger
-    def is_look_set_info(self) -> bool:
-        return self.state == UserState.LOOK_SET_INFO
+    def is_request_to_look_set_info(self) -> bool:
+        return self.state == UserState.REQUEST_TO_LOOK_SET_INFO
 
     @logger
     def go_to_main_menu(self) -> None:
