@@ -51,4 +51,12 @@ class Database(AbstractBase):
 
     @logger
     def get_user_sets(self, user_id: str) -> Iterable[SetORM]:
-        return ()  # TODO: get select from db
+        def select(session):
+            return session.transaction().execute(
+                'SELECT `id`, `origin_set_id`, `name` FROM `sets` WHERE `user_id` == "{}";'.format(user_id),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+        return [SetORM(id=e.id, origin_set_id=e.origin_set_id, name=e.name) for e in result[0].rows]
