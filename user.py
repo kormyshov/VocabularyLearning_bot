@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Iterable, Collection
 from logging_decorator import logger
 from abstract_base import AbstractBase, UserDoesntExistInDB
 from user_orm import UserState, UserORM
@@ -40,7 +40,7 @@ class User:
         ))
 
     @logger
-    def get_sets(self) -> Iterable[SetORM]:
+    def get_sets(self) -> Collection[SetORM]:
         return self.database.get_user_sets(self.id)
 
     @logger

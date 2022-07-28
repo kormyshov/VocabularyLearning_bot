@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Collection
 from abstract_base import AbstractBase, UserDoesntExistInDB
 from set_orm import SetORM
 from user_orm import UserORM
@@ -20,5 +20,5 @@ class Dictbase(AbstractBase):
     def set_user_info(self, user: UserORM) -> None:
         self.users[user.id] = user
 
-    def get_user_sets(self, user_id: str) -> Iterable[SetORM]:
+    def get_user_sets(self, user_id: str) -> Collection[SetORM]:
         return self.sets.get(user_id, [])

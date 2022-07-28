@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Iterable
+from typing import Collection
 from set_orm import SetORM
 from user_orm import UserORM
 
@@ -14,7 +14,7 @@ class AbstractBase(ABC):
         pass
 
     @abstractmethod
-    def get_user_sets(self, user_id: str) -> Iterable[SetORM]:
+    def get_user_sets(self, user_id: str) -> Collection[SetORM]:
         pass
 
 

@@ -1,6 +1,6 @@
 import os
 import ydb
-from typing import Iterable
+from typing import Collection
 
 from logging_decorator import logger
 from set_orm import SetORM
@@ -50,7 +50,7 @@ class Database(AbstractBase):
         self.pool.retry_operation_sync(upsert)
 
     @logger
-    def get_user_sets(self, user_id: str) -> Iterable[SetORM]:
+    def get_user_sets(self, user_id: str) -> Collection[SetORM]:
         def select(session):
             return session.transaction().execute(
                 'SELECT `id`, `origin_set_id`, `name` FROM `sets` WHERE `user_id` == "{}";'.format(user_id),
