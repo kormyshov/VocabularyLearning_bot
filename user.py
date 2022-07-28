@@ -5,6 +5,9 @@ from user_orm import UserState, UserORM
 from set_orm import SetORM
 
 
+MAX_SET_COUNT = 5
+
+
 class User:
     def __init__(self, chat_id: str, database: AbstractBase) -> None:
         self.id: str = chat_id
@@ -51,6 +54,13 @@ class User:
     @logger
     def is_request_to_look_set_info(self) -> bool:
         return self.state == UserState.REQUEST_TO_LOOK_SET_INFO
+
+    @logger
+    def request_to_add_set(self) -> bool:
+        if len(self.get_sets()) >= MAX_SET_COUNT:
+            return False
+        self.state = UserState.REQUEST_TO_ADD_SET
+        return True
 
     @logger
     def go_to_main_menu(self) -> None:

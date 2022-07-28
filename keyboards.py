@@ -22,3 +22,11 @@ def get_sets(sets_names: Iterable[str]) -> List[str]:
     keyboard = [set_name for set_name in sets_names]
     keyboard.append(constants.BACK)
     return keyboard
+
+
+def get_add_set_menu() -> Tuple[str, ...]:
+    return (
+        constants.NEW_SET,
+        constants.EXIST_SET,
+        constants.BACK,
+    )

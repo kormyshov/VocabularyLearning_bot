@@ -35,6 +35,13 @@ class Controller:
         pass
 
     @logger
+    def request_to_add_set(self, user: User) -> None:
+        if user.request_to_add_set():
+            self.viewer.view(user.id, constants.DO_YOU_WANT_TO_CREATE_OR_ADD_EXIST_SET, keyboards.get_add_set_menu())
+        else:
+            self.viewer.view(user.id, constants.YOU_HAVE_MAX_SET_COUNT, keyboards.get_main_menu())
+
+    @logger
     def go_to_main_menu(self, user: User) -> None:
         user.go_to_main_menu()
         self.viewer.view(user.id, constants.MENU, keyboards.get_main_menu())
@@ -47,6 +54,8 @@ class Controller:
             self.look_sets(user)
         elif text == constants.LOOK_SET_INFO:
             self.request_to_look_set_info(user)
+        elif text == constants.ADD_SET:
+            self.request_to_add_set(user)
         elif text == constants.BACK:
             self.go_to_main_menu(user)
         else:
