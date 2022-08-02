@@ -29,6 +29,12 @@ class Database(AbstractBase):
             )
 
         result = self.pool.retry_operation_sync(select)
+        print('ok')
+        print(result)
+        print(len(result))
+        print(len(result[0]))
+        print(result[0])
+        
         if len(result[0]) == 0:
             raise UserDoesntExistInDB
 
