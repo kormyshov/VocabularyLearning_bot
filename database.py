@@ -32,7 +32,7 @@ class Database(AbstractBase):
         if len(result[0]) == 0:
             raise UserDoesntExistInDB
 
-        return UserORM(id=user_id, state=UserState.START, data=result[0].rows[0].data)
+        return UserORM(id=user_id, state=UserState.START, data=0)
 
     @logger
     def set_user_info(self, user: UserORM) -> None:
