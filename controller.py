@@ -62,6 +62,7 @@ class Controller:
     @logger
     def operate(self, user_id: str, text: str):
         user = User(user_id, self.database)
+        user.load()
 
         if user.is_main_menu():
             if text == constants.LOOK_SETS:
