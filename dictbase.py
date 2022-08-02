@@ -1,5 +1,5 @@
 from typing import Collection
-from abstract_base import AbstractBase, UserDoesntExistInDB
+from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB
 from set_orm import SetORM
 from user_orm import UserORM
 
@@ -22,3 +22,11 @@ class Dictbase(AbstractBase):
 
     def get_user_sets(self, user_id: str) -> Collection[SetORM]:
         return self.sets.get(user_id, [])
+
+    def get_set_by_id(self, set_id: int) -> SetORM:
+        if set_id not in self.sets:
+            raise SetDoesntExistInDB
+        return self.sets[set_id]
+
+    def copy_set(self, user_id: str, set_name: str, set_id: int) -> None:
+        pass

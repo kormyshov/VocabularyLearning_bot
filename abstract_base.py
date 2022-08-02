@@ -17,6 +17,18 @@ class AbstractBase(ABC):
     def get_user_sets(self, user_id: str) -> Collection[SetORM]:
         pass
 
+    @abstractmethod
+    def get_set_by_id(self, set_id: int) -> SetORM:
+        pass
+
+    @abstractmethod
+    def copy_set(self, user_id: str, set_name: str, set_id: int) -> None:
+        pass
+
 
 class UserDoesntExistInDB(Exception):
+    pass
+
+
+class SetDoesntExistInDB(Exception):
     pass

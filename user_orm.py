@@ -7,6 +7,7 @@ class UserState(IntEnum):
     REQUEST_TO_LOOK_SET_INFO = 1
     LOOK_SET_INFO = 2
     REQUEST_TO_ADD_SET = 3
+    REQUEST_TO_ADD_EXIST_SET = 4
 
 
 class UserORM(NamedTuple):

@@ -1,6 +1,6 @@
 from typing import Iterable, Collection
 from logging_decorator import logger
-from abstract_base import AbstractBase, UserDoesntExistInDB
+from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB
 from user_orm import UserState, UserORM
 from set_orm import SetORM
 
@@ -63,5 +63,30 @@ class User:
         return True
 
     @logger
+    def is_request_to_add_set(self) -> bool:
+        return self.state == UserState.REQUEST_TO_ADD_SET
+
+    @logger
+    def request_to_add_exist_set(self) -> None:
+        self.state = UserState.REQUEST_TO_ADD_EXIST_SET
+
+    @logger
+    def is_request_to_add_exist_set(self) -> bool:
+        return self.state == UserState.REQUEST_TO_ADD_EXIST_SET
+
+    @logger
+    def add_exist_set(self, set_id: int) -> bool:
+        try:
+            set_orm = self.database.get_set_by_id(set_id)
+            self.database.copy_set(self.id, set_orm.name, set_orm.origin_set_id)
+            return True
+        except SetDoesntExistInDB:
+            return False
+
+    @logger
     def go_to_main_menu(self) -> None:
         self.state = UserState.START
+
+    @logger
+    def is_main_menu(self) -> bool:
+        return self.state == UserState.START
