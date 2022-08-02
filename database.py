@@ -5,7 +5,7 @@ from typing import Collection
 
 from logging_decorator import logger
 from set_orm import SetORM
-from user_orm import UserORM
+from user_orm import UserORM, UserState
 from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB
 
 
@@ -32,7 +32,7 @@ class Database(AbstractBase):
         if len(result[0]) == 0:
             raise UserDoesntExistInDB
 
-        return UserORM(id=user_id, state=result[0].rows[0].state, data=result[0].rows[0].data)
+        return UserORM(id=user_id, state=UserState.START, data=result[0].rows[0].data)
 
     @logger
     def set_user_info(self, user: UserORM) -> None:
