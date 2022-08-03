@@ -29,15 +29,11 @@ class Database(AbstractBase):
             )
 
         result = self.pool.retry_operation_sync(select)
-        print('ok')
-        print(result)
-        print(len(result))
-        print(result[0])
 
-        if len(result[0]) == 0:
+        if len(result[0].rows) == 0:
             raise UserDoesntExistInDB
 
-        return UserORM(id=user_id, state=UserState.START, data=0)
+        return UserORM(id=user_id, state=result[0].rows[0].state, data=result[0].rows[0].data)
 
     @logger
     def set_user_info(self, user: UserORM) -> None:
@@ -72,7 +68,7 @@ class Database(AbstractBase):
             )
 
         result = self.pool.retry_operation_sync(select)
-        if len(result[0]) == 0:
+        if len(result[0].rows) == 0:
             raise SetDoesntExistInDB
 
         return SetORM(id=set_id, name=result[0].rows[0].name, origin_set_id=result[0].rows[0].origin_set_id)
