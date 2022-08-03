@@ -62,7 +62,7 @@ class Database(AbstractBase):
     def get_set_by_id(self, set_id: int) -> SetORM:
         def select(session):
             return session.transaction().execute(
-                'SELECT `id`, `name`, `origin_set_id` FROM `sets` WHERE `id` == "{}";'.format(set_id),
+                'SELECT `id`, `name`, `origin_set_id` FROM `sets` WHERE `id` == {};'.format(set_id),
                 commit_tx=True,
                 settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
             )
