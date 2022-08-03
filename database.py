@@ -56,7 +56,7 @@ class Database(AbstractBase):
             )
 
         result = self.pool.retry_operation_sync(select)
-        return [SetORM(id=e.id, origin_set_id=e.origin_set_id, name=e.name) for e in result[0].rows]
+        return [SetORM(id=e.id, origin_set_id=e.origin_set_id, name=e.name.decode('utf-8')) for e in result[0].rows]
 
     @logger
     def get_set_by_id(self, set_id: int) -> SetORM:
@@ -71,7 +71,11 @@ class Database(AbstractBase):
         if len(result[0].rows) == 0:
             raise SetDoesntExistInDB
 
-        return SetORM(id=set_id, name=result[0].rows[0].name, origin_set_id=result[0].rows[0].origin_set_id)
+        return SetORM(
+            id=set_id,
+            name=result[0].rows[0].name.decode('utf-8'),
+            origin_set_id=result[0].rows[0].origin_set_id,
+        )
 
     @logger
     def copy_set(self, user_id: str, set_name: str, set_id: int) -> None:
