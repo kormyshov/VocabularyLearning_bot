@@ -22,3 +22,6 @@ EXIST_SET = 'Exist set'
 ENTER_ID_OF_SET = 'Enter ID of set'
 SET_HAS_BEEN_ADDED = 'Set has been added'
 THERE_IS_NO_SET = 'There is no set with that ID. Enter another ID'
+
+ENTER_SET_NAME = 'Enter set name'
+SET_HAS_BEEN_CREATED = 'Set has been created'

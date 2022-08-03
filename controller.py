@@ -47,12 +47,23 @@ class Controller:
         self.viewer.view(user.id, constants.ENTER_ID_OF_SET, keyboards.get_back())
 
     @logger
+    def request_to_add_new_set(self, user: User) -> None:
+        user.request_to_add_new_set()
+        self.viewer.view(user.id, constants.ENTER_SET_NAME, keyboards.get_back())
+
+    @logger
     def add_exist_set(self, user: User, set_id: str) -> None:
         if user.add_exist_set(int(set_id)):
             self.viewer.view(user.id, constants.SET_HAS_BEEN_ADDED)
             self.go_to_main_menu(user)
         else:
             self.viewer.view(user.id, constants.THERE_IS_NO_SET)
+
+    @logger
+    def add_new_set(self, user: User, set_name: str) -> None:
+        user.add_new_set(set_name)
+        self.viewer.view(user.id, constants.SET_HAS_BEEN_CREATED)
+        self.go_to_main_menu(user)
 
     @logger
     def go_to_main_menu(self, user: User) -> None:
@@ -74,6 +85,8 @@ class Controller:
         elif user.is_request_to_add_set():
             if text == constants.EXIST_SET:
                 self.request_to_add_exist_set(user)
+            elif text == constants.NEW_SET:
+                self.request_to_add_new_set(user)
             elif text == constants.BACK:
                 self.go_to_main_menu(user)
         elif user.is_request_to_add_exist_set():
@@ -81,6 +94,11 @@ class Controller:
                 self.request_to_add_set(user)
             else:
                 self.add_exist_set(user, text)
+        elif user.is_request_to_add_new_set():
+            if text == constants.BACK:
+                self.request_to_add_set(user)
+            else:
+                self.add_new_set(user, text)
         elif user.is_request_to_look_set_info():
             if text == constants.BACK:
                 self.go_to_main_menu(user)

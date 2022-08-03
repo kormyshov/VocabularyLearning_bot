@@ -75,6 +75,14 @@ class User:
         return self.state == UserState.REQUEST_TO_ADD_EXIST_SET
 
     @logger
+    def request_to_add_new_set(self) -> None:
+        self.state = UserState.REQUEST_TO_ADD_NEW_SET
+
+    @logger
+    def is_request_to_add_new_set(self) -> bool:
+        return self.state == UserState.REQUEST_TO_ADD_NEW_SET
+
+    @logger
     def add_exist_set(self, set_id: int) -> bool:
         try:
             set_orm = self.database.get_set_by_id(set_id)
@@ -82,6 +90,10 @@ class User:
             return True
         except SetDoesntExistInDB:
             return False
+
+    @logger
+    def add_new_set(self, set_name: str) -> None:
+        self.database.create_set(self.id, set_name)
 
     @logger
     def go_to_main_menu(self) -> None:

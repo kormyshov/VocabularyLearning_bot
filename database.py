@@ -87,4 +87,21 @@ class Database(AbstractBase):
                 settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
             )
 
-        self.pool.retry_operation_sync(upsert)  #TODO: добавить копирование карточек
+        self.pool.retry_operation_sync(upsert)  # TODO: добавить копирование карточек
+
+    @logger
+    def create_set(self, user_id: str, set_name: str) -> None:
+        def upsert(session):
+            set_id = int(user_id) * 1000 + random.randint(1, 1000)
+            return session.transaction().execute(
+                'UPSERT INTO `sets` (`id`, `user_id`, `origin_set_id`, `name`) VALUES ({}, "{}", {}, "{}");'.format(
+                    set_id,
+                    user_id,
+                    set_id,
+                    set_name,
+                    ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        self.pool.retry_operation_sync(upsert)

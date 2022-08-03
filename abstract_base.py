@@ -25,6 +25,10 @@ class AbstractBase(ABC):
     def copy_set(self, user_id: str, set_name: str, set_id: int) -> None:
         pass
 
+    @abstractmethod
+    def create_set(self, user_id: str, set_name: str) -> None:
+        pass
+
 
 class UserDoesntExistInDB(Exception):
     pass
