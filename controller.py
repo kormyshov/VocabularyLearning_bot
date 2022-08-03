@@ -52,7 +52,7 @@ class Controller:
             self.viewer.view(user.id, constants.SET_HAS_BEEN_ADDED)
             self.go_to_main_menu(user)
         else:
-            self.request_to_add_set(user)
+            self.viewer.view(user.id, constants.THERE_IS_NO_SET)
 
     @logger
     def go_to_main_menu(self, user: User) -> None:
