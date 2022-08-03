@@ -15,7 +15,7 @@ class Controller:
     def look_sets(self, user: User) -> None:
         is_empty = True
         for user_set in user.get_sets():
-            self.viewer.view(user.id, '{}. {}'.format(user_set.id, str(user_set.name)))
+            self.viewer.view(user.id, '{}. '.format(user_set.id) + user_set.name)
             is_empty = False
         if is_empty:
             self.viewer.view(user.id, constants.YOU_DONT_HAVE_SET)
