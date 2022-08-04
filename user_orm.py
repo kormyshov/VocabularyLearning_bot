@@ -9,6 +9,7 @@ class UserState(IntEnum):
     REQUEST_TO_ADD_SET = 3
     REQUEST_TO_ADD_EXIST_SET = 4
     REQUEST_TO_ADD_NEW_SET = 5
+    REQUEST_TO_DELETE_SET = 6
 
 
 class UserORM(NamedTuple):

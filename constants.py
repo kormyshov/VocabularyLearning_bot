@@ -25,3 +25,4 @@ THERE_IS_NO_SET = 'There is no set with that ID. Enter another ID'
 
 ENTER_SET_NAME = 'Enter set name'
 SET_HAS_BEEN_CREATED = 'Set has been created'
+SET_HAS_BEEN_DELETED = 'Set has been deleted'

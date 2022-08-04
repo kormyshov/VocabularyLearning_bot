@@ -96,6 +96,19 @@ class User:
         self.database.create_set(self.id, set_name)
 
     @logger
+    def request_to_delete_set(self) -> Iterable[str]:
+        self.state = UserState.REQUEST_TO_DELETE_SET
+        return map(lambda e: '{}: {}'.format(e.id, e.name), self.get_sets())
+
+    @logger
+    def is_request_to_delete_set(self) -> bool:
+        return self.state == UserState.REQUEST_TO_DELETE_SET
+
+    @logger
+    def delete_set(self, set_id: int) -> bool:
+        pass
+
+    @logger
     def go_to_main_menu(self) -> None:
         self.state = UserState.START
 

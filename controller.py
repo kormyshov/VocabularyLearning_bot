@@ -66,6 +66,24 @@ class Controller:
         self.go_to_main_menu(user)
 
     @logger
+    def request_to_delete_set(self, user: User) -> None:
+        user_set_names = user.request_to_delete_set()
+        keyboard = keyboards.get_sets(user_set_names)
+        if len(keyboard) == 1:
+            user.go_to_main_menu()
+            self.viewer.view(user.id, constants.YOU_DONT_HAVE_SET, keyboards.get_main_menu())
+        else:
+            self.viewer.view(user.id, constants.SELECT_SET, keyboard)
+
+    @logger
+    def delete_set(self, user: User, set_name: str) -> None:
+        if user.delete_set(int(set_name.split(':')[0])):
+            self.viewer.view(user.id, constants.SET_HAS_BEEN_DELETED)
+            self.go_to_main_menu(user)
+        else:
+            self.viewer.view(user.id, constants.THERE_IS_NO_SET)
+
+    @logger
     def go_to_main_menu(self, user: User) -> None:
         user.go_to_main_menu()
         self.viewer.view(user.id, constants.MENU, keyboards.get_main_menu())
@@ -82,6 +100,8 @@ class Controller:
                 self.request_to_look_set_info(user)
             elif text == constants.ADD_SET:
                 self.request_to_add_set(user)
+            elif text == constants.DELETE_SET:
+                self.request_to_delete_set(user)
         elif user.is_request_to_add_set():
             if text == constants.EXIST_SET:
                 self.request_to_add_exist_set(user)
@@ -104,6 +124,11 @@ class Controller:
                 self.go_to_main_menu(user)
             else:
                 self.look_set_info(user, text)
+        elif user.is_request_to_delete_set():
+            if text == constants.BACK:
+                self.go_to_main_menu(user)
+            else:
+                self.delete_set(user, text)
         else:
             pass
 
