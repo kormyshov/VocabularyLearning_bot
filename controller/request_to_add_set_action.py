@@ -1,5 +1,5 @@
 from logging_decorator import logger
-from abstract_action import AbstractAction
+from controller.abstract_action import AbstractAction
 from abstract_viewer import AbstractViewer
 from user import User
 from constants import ADD_SET, DO_YOU_WANT_TO_CREATE_OR_ADD_EXIST_SET, YOU_HAVE_MAX_SET_COUNT, BACK

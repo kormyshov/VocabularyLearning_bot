@@ -1,5 +1,5 @@
 from logging_decorator import logger
-from abstract_action import AbstractAction
+from controller.abstract_action import AbstractAction
 from abstract_viewer import AbstractViewer
 from user import User
 from constants import BACK, MENU

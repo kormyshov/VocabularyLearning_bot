@@ -1,9 +1,9 @@
 from logging_decorator import logger
-from abstract_action import AbstractAction
+from controller.abstract_action import AbstractAction
 from abstract_viewer import AbstractViewer
 from user import User
 from constants import BACK, SET_HAS_BEEN_ADDED, THERE_IS_NO_SET
-from go_to_main_menu_action import GoToMainMenuAction
+from controller.go_to_main_menu_action import GoToMainMenuAction
 
 
 class AddExistSetAction(AbstractAction):
