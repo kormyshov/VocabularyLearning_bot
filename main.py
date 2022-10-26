@@ -1,7 +1,7 @@
 from keyboards import get_main_menu
 from constants import ONBOARDING
 from database import Database
-from controller import Controller
+from controller.controller import Controller
 from telegram_viewer import TelegramViewer, bot
 
 
