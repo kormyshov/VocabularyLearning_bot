@@ -106,7 +106,11 @@ class User:
 
     @logger
     def delete_set(self, set_id: int) -> bool:
-        pass
+        try:
+            self.database.disconnect_set_and_user(set_id)
+            return True
+        except SetDoesntExistInDB:
+            return False
 
     @logger
     def go_to_main_menu(self) -> None:

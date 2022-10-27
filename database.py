@@ -10,6 +10,7 @@ from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB
 
 
 class Database(AbstractBase):
+
     def __init__(self):
         self.driver = ydb.Driver(
             endpoint=os.getenv('YDB_ENDPOINT'),
@@ -104,6 +105,17 @@ class Database(AbstractBase):
                     set_id,
                     set_name,
                     ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        self.pool.retry_operation_sync(upsert)
+
+    @logger
+    def disconnect_set_and_user(self, set_id: int) -> None:
+        def upsert(session):
+            return session.transaction().execute(
+                'UPSERT INTO `sets` (`id`, `user_id`) VALUES ({}, "")'.format(set_id),
                 commit_tx=True,
                 settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
             )

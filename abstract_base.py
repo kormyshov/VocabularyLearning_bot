@@ -29,6 +29,10 @@ class AbstractBase(ABC):
     def create_set(self, user_id: str, set_name: str) -> None:
         pass
 
+    @abstractmethod
+    def disconnect_set_and_user(self, set_id: int) -> None:
+        pass
+
 
 class UserDoesntExistInDB(Exception):
     pass
