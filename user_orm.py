@@ -5,7 +5,7 @@ from enum import IntEnum
 class UserState(IntEnum):
     START = 0
     REQUEST_TO_LOOK_SET_INFO = 1
-    LOOK_SET_INFO = 2
+    # LOOK_SET_INFO = 2
     REQUEST_TO_ADD_SET = 3
     REQUEST_TO_ADD_EXIST_SET = 4
     REQUEST_TO_ADD_NEW_SET = 5
