@@ -1,8 +1,9 @@
-from typing import Iterable, Collection
+from typing import Iterable, Collection, Optional
 from logging_decorator import logger
 from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB
 from user_orm import UserState, UserORM
 from set_orm import SetORM
+from set_info import SetInfo
 
 
 MAX_SET_COUNT = 5
@@ -107,6 +108,7 @@ class User:
     @logger
     def delete_set(self, set_id: int) -> bool:
         try:
+            self.database.get_user_set_by_id(self.id, set_id)
             self.database.disconnect_set_and_user(set_id)
             return True
         except SetDoesntExistInDB:
@@ -119,3 +121,12 @@ class User:
     @logger
     def is_main_menu(self) -> bool:
         return self.state == UserState.START
+
+    @logger
+    def look_set_info(self, set_id: int) -> Optional[SetInfo]:
+        try:
+            set_orm = self.database.get_user_set_by_id(self.id, set_id)
+            count_of_cards = self.database.get_count_of_cards(set_id)
+            return SetInfo(set_orm.name, count_of_cards, set_orm.id == set_orm.origin_set_id)
+        except SetDoesntExistInDB:
+            return None

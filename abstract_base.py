@@ -22,6 +22,10 @@ class AbstractBase(ABC):
         pass
 
     @abstractmethod
+    def get_user_set_by_id(self, user_id: str, set_id: int) -> SetORM:
+        pass
+
+    @abstractmethod
     def copy_set(self, user_id: str, set_name: str, set_id: int) -> None:
         pass
 
@@ -31,6 +35,10 @@ class AbstractBase(ABC):
 
     @abstractmethod
     def disconnect_set_and_user(self, set_id: int) -> None:
+        pass
+
+    @abstractmethod
+    def get_count_of_cards(self, set_id: int) -> int:
         pass
 
 

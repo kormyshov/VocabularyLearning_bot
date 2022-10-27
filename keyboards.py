@@ -30,3 +30,19 @@ def get_add_set_menu() -> Tuple[str, ...]:
         constants.EXIST_SET,
         constants.BACK,
     )
+
+
+def get_mutable_set_info_menu() -> Tuple[str, ...]:
+    return (
+        constants.ADD_CARD,
+        constants.DELETE_CARD,
+        constants.LEARN,
+        constants.BACK,
+    )
+
+
+def get_immutable_set_info_menu() -> Tuple[str, ...]:
+    return (
+        constants.LEARN,
+        constants.BACK,
+    )

@@ -79,6 +79,28 @@ class Database(AbstractBase):
         )
 
     @logger
+    def get_user_set_by_id(self, user_id: str, set_id: int) -> SetORM:
+        def select(session):
+            return session.transaction().execute(
+                'SELECT `id`, `name`, `origin_set_id` FROM `sets` WHERE `id` == {} and `user_id` == "{}";'.format(
+                    set_id,
+                    user_id,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+        if len(result[0].rows) == 0:
+            raise SetDoesntExistInDB
+
+        return SetORM(
+            id=set_id,
+            name=result[0].rows[0].name.decode('utf-8'),
+            origin_set_id=result[0].rows[0].origin_set_id,
+        )
+
+    @logger
     def copy_set(self, user_id: str, set_name: str, set_id: int) -> None:
         def upsert(session):
             return session.transaction().execute(
@@ -121,3 +143,16 @@ class Database(AbstractBase):
             )
 
         self.pool.retry_operation_sync(upsert)
+
+    @logger
+    def get_count_of_cards(self, set_id: int) -> int:
+        def select(session):
+            return session.transaction().execute(
+                'SELECT COUNT(*) as `count` FROM `cards` WHERE `set_id` == {};'.format(set_id),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+
+        return result[0].rows[0].count
