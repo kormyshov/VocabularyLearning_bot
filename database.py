@@ -91,7 +91,7 @@ class Database(AbstractBase):
                 settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
             )
 
-        self.pool.retry_operation_sync(upsert)  # TODO: добавить копирование карточек
+        self.pool.retry_operation_sync(upsert)
 
     @logger
     def create_set(self, user_id: str, set_name: str) -> None:
