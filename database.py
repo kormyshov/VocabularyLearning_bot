@@ -5,7 +5,7 @@ from typing import Collection
 
 from logging_decorator import logger
 from set_orm import SetORM
-from user_orm import UserORM, UserState
+from user_orm import UserORM
 from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB
 
 
