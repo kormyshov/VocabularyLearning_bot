@@ -191,7 +191,7 @@ class Database(AbstractBase):
 
     @logger
     def create_term(self, set_id: int, term: str) -> int:
-        term_id = set_id * 1000000000 + random.randint(0, 999999999)
+        term_id = set_id * 1000000 + random.randint(0, 999999)
 
         def upsert(session):
             return session.transaction().execute(
