@@ -49,6 +49,14 @@ class AbstractBase(ABC):
     def create_term(self, set_id: int, term: str) -> int:
         pass
 
+    @abstractmethod
+    def get_definition_id(self, term_id: int, definition: str) -> int:
+        pass
+
+    @abstractmethod
+    def create_definition(self, set_id: int, term_id: int, definition: str) -> int:
+        pass
+
 
 class UserDoesntExistInDB(Exception):
     pass
@@ -59,4 +67,8 @@ class SetDoesntExistInDB(Exception):
 
 
 class TermDoesntExistInDB(Exception):
+    pass
+
+
+class DefinitionDoesntExistInDB(Exception):
     pass

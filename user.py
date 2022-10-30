@@ -1,6 +1,12 @@
 from typing import Iterable, Collection, Optional
 from logging_decorator import logger
-from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB, TermDoesntExistInDB
+from abstract_base import (
+    AbstractBase,
+    UserDoesntExistInDB,
+    SetDoesntExistInDB,
+    TermDoesntExistInDB,
+    DefinitionDoesntExistInDB,
+)
 from user_orm import UserState, UserORM
 from set_orm import SetORM
 from set_info import SetInfo
@@ -152,7 +158,7 @@ class User:
 
     @logger
     def request_to_add_term(self) -> bool:
-        if len(self.get_sets()) >= MAX_SET_COUNT:
+        if self.database.get_count_of_cards(self.set_id) >= MAX_CARD_COUNT:
             return False
         self.state = UserState.REQUEST_TO_ADD_TERM
         return True
@@ -177,3 +183,20 @@ class User:
         except TermDoesntExistInDB:
             term_id = self.database.create_term(self.set_id, term)
         return term_id
+
+    @logger
+    def request_to_add_sample(self, definition_id: int) -> None:
+        self.state = UserState.REQUEST_TO_ADD_SAMPLE
+        self.definition_id = definition_id
+
+    @logger
+    def is_request_to_add_sample(self) -> bool:
+        return self.state == UserState.REQUEST_TO_ADD_SAMPLE
+
+    @logger
+    def add_definition(self, definition: str) -> int:
+        try:
+            definition_id = self.database.get_definition_id(self.term_id, definition)
+        except DefinitionDoesntExistInDB:
+            definition_id = self.database.create_definition(self.set_id, self.term_id, definition)
+        return definition_id

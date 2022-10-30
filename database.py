@@ -6,7 +6,13 @@ from typing import Collection
 from logging_decorator import logger
 from set_orm import SetORM
 from user_orm import UserORM
-from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB, TermDoesntExistInDB
+from abstract_base import (
+    AbstractBase,
+    UserDoesntExistInDB,
+    SetDoesntExistInDB,
+    TermDoesntExistInDB,
+    DefinitionDoesntExistInDB,
+)
 
 
 class Database(AbstractBase):
@@ -203,3 +209,41 @@ class Database(AbstractBase):
         self.pool.retry_operation_sync(upsert)
 
         return term_id
+
+    @logger
+    def get_definition_id(self, term_id: int, definition: str) -> int:
+        def select(session):
+            return session.transaction().execute(
+                'SELECT `id` FROM `definitions` WHERE `definition` == "{}" AND `term_id` == {};'.format(
+                    definition,
+                    term_id,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+
+        if len(result[0].rows) == 0:
+            raise DefinitionDoesntExistInDB
+
+        return result[0].rows[0].id
+
+    @logger
+    def create_definition(self, set_id: int, term_id: int, definition: str) -> int:
+        definition_id = set_id * 1000000 + random.randint(0, 999999)
+
+        def upsert(session):
+            return session.transaction().execute(
+                'UPSERT INTO `definitions` (`id`, `term_id`, `definition`) VALUES ({}, {}, "{}");'.format(
+                    definition_id,
+                    term_id,
+                    definition,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        self.pool.retry_operation_sync(upsert)
+
+        return definition_id

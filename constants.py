@@ -35,3 +35,4 @@ LEARN = 'Learn'
 
 ENTER_NEW_TERM = 'Enter a new term'
 ENTER_DEFINITION = 'Enter a definition of {}'
+ENTER_SAMPLE = 'Enter a sample of using'
