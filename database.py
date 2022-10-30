@@ -48,7 +48,7 @@ class Database(AbstractBase):
     def set_user_info(self, user: UserORM) -> None:
         def upsert(session):
             return session.transaction().execute(
-                'UPSERT INTO `users` (`id`, `state`, `set_id`, `term_id`, `definition_id`, sample_id`, `card_id`) VALUES ("{}", {}, {}, {}, {}, {}, {});'.format(
+                'UPSERT INTO `users` (`id`, `state`, `set_id`, `term_id`, `definition_id`, `sample_id`, `card_id`) VALUES ("{}", {}, {}, {}, {}, {}, {});'.format(
                     user.id,
                     user.state,
                     user.set_id,
