@@ -1,12 +1,13 @@
 from typing import Iterable, Collection, Optional
 from logging_decorator import logger
-from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB
+from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB, TermDoesntExistInDB
 from user_orm import UserState, UserORM
 from set_orm import SetORM
 from set_info import SetInfo
 
 
 MAX_SET_COUNT = 5
+MAX_CARD_COUNT = 1000
 
 
 class User:
@@ -150,9 +151,29 @@ class User:
         return self.state == UserState.LOOK_SET_INFO
 
     @logger
-    def request_to_add_term(self) -> None:
+    def request_to_add_term(self) -> bool:
+        if len(self.get_sets()) >= MAX_SET_COUNT:
+            return False
         self.state = UserState.REQUEST_TO_ADD_TERM
+        return True
 
     @logger
     def is_request_to_add_term(self) -> bool:
         return self.state == UserState.REQUEST_TO_ADD_TERM
+
+    @logger
+    def request_to_add_definition(self, term_id: int) -> None:
+        self.state = UserState.REQUEST_TO_ADD_DEFINITION
+        self.term_id = term_id
+
+    @logger
+    def is_request_to_add_definition(self) -> bool:
+        return self.state == UserState.REQUEST_TO_ADD_DEFINITION
+
+    @logger
+    def add_term(self, term: str) -> int:
+        try:
+            term_id = self.database.get_term_id(term)
+        except TermDoesntExistInDB:
+            term_id = self.database.create_term(self.set_id, term)
+        return term_id

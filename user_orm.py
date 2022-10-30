@@ -11,6 +11,7 @@ class UserState(IntEnum):
     REQUEST_TO_ADD_NEW_SET = 5
     REQUEST_TO_DELETE_SET = 6
     REQUEST_TO_ADD_TERM = 7
+    REQUEST_TO_ADD_DEFINITION = 8
 
 
 class UserORM(NamedTuple):

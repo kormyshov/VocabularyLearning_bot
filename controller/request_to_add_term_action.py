@@ -2,7 +2,7 @@ from logging_decorator import logger
 from controller.abstract_action import AbstractAction
 from abstract_viewer import AbstractViewer
 from user import User
-from constants import ADD_CARD, ENTER_NEW_TERM
+from constants import ADD_CARD, ENTER_NEW_TERM, THIS_SET_HAS_MAX_CARD_COUNT
 import keyboards
 
 
@@ -15,5 +15,7 @@ class RequestToAddTermAction(AbstractAction):
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
-        user.request_to_add_term()
-        viewer.view(user.id, ENTER_NEW_TERM, keyboards.get_back())
+        if user.request_to_add_term():
+            viewer.view(user.id, ENTER_NEW_TERM, keyboards.get_back())
+        else:
+            viewer.view(user.id, THIS_SET_HAS_MAX_CARD_COUNT)

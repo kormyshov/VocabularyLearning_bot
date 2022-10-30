@@ -41,10 +41,22 @@ class AbstractBase(ABC):
     def get_count_of_cards(self, set_id: int) -> int:
         pass
 
+    @abstractmethod
+    def get_term_id(self, term: str) -> int:
+        pass
+
+    @abstractmethod
+    def create_term(self, set_id: int, term: str) -> int:
+        pass
+
 
 class UserDoesntExistInDB(Exception):
     pass
 
 
 class SetDoesntExistInDB(Exception):
+    pass
+
+
+class TermDoesntExistInDB(Exception):
     pass

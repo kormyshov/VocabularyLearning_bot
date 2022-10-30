@@ -16,6 +16,7 @@ from controller.add_new_set_action import AddNewSetAction
 from controller.look_set_info_action import LookSetInfoAction
 from controller.delete_set_action import DeleteSetAction
 from controller.request_to_add_term_action import RequestToAddTermAction
+from controller.request_to_add_definition_action import RequestToAddDefinitionAction
 
 
 class Controller:
@@ -33,6 +34,7 @@ class Controller:
         LookSetInfoAction(),
         DeleteSetAction(),
         RequestToAddTermAction(),
+        RequestToAddDefinitionAction(),
     )
 
     def __init__(self, database: AbstractBase, viewer: AbstractViewer):

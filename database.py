@@ -6,7 +6,7 @@ from typing import Collection
 from logging_decorator import logger
 from set_orm import SetORM
 from user_orm import UserORM
-from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB
+from abstract_base import AbstractBase, UserDoesntExistInDB, SetDoesntExistInDB, TermDoesntExistInDB
 
 
 class Database(AbstractBase):
@@ -121,7 +121,7 @@ class Database(AbstractBase):
         def upsert(session):
             return session.transaction().execute(
                 'UPSERT INTO `sets` (`id`, `user_id`, `origin_set_id`, `name`) VALUES ({}, "{}", {}, "{}");'.format(
-                    int(user_id) * 1000 + random.randint(1, 1000),
+                    int(user_id) * 1000 + random.randint(0, 999),
                     user_id,
                     set_id,
                     set_name,
@@ -135,14 +135,14 @@ class Database(AbstractBase):
     @logger
     def create_set(self, user_id: str, set_name: str) -> None:
         def upsert(session):
-            set_id = int(user_id) * 1000 + random.randint(1, 1000)
+            set_id = int(user_id) * 1000 + random.randint(0, 999)
             return session.transaction().execute(
                 'UPSERT INTO `sets` (`id`, `user_id`, `origin_set_id`, `name`) VALUES ({}, "{}", {}, "{}");'.format(
                     set_id,
                     user_id,
                     set_id,
                     set_name,
-                    ),
+                ),
                 commit_tx=True,
                 settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
             )
@@ -172,3 +172,34 @@ class Database(AbstractBase):
         result = self.pool.retry_operation_sync(select)
 
         return result[0].rows[0].count
+
+    @logger
+    def get_term_id(self, term: str) -> int:
+        def select(session):
+            return session.transaction().execute(
+                'SELECT `id` FROM `terms` WHERE `term` == {};'.format(term),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+
+        if len(result[0].rows) == 0:
+            raise TermDoesntExistInDB
+
+        return result[0].rows[0].id
+
+    @logger
+    def create_term(self, set_id: int, term: str) -> int:
+        term_id = set_id * 1000000000 + random.randint(0, 999999999)
+
+        def upsert(session):
+            return session.transaction().execute(
+                'UPSERT INTO `terms` (`id`, `term`) VALUES ({}, "{}");'.format(term_id, term),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        self.pool.retry_operation_sync(upsert)
+
+        return term_id

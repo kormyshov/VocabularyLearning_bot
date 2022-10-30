@@ -27,8 +27,11 @@ ENTER_SET_NAME = 'Enter set name'
 SET_HAS_BEEN_CREATED = 'Set has been created'
 SET_HAS_BEEN_DELETED = 'Set has been deleted'
 
+THIS_SET_HAS_MAX_CARD_COUNT = 'This set has max card count'
+
 ADD_CARD = 'Add card'
 DELETE_CARD = 'Delete card'
 LEARN = 'Learn'
 
 ENTER_NEW_TERM = 'Enter a new term'
+ENTER_DEFINITION = 'Enter a definition of {}'
