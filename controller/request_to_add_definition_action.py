@@ -11,7 +11,10 @@ class RequestToAddDefinitionAction(AbstractAction):
         pass
 
     def check(self, user: User, text: str) -> bool:
-        return user.is_request_to_add_term() and text != BACK
+        return (
+            (user.is_request_to_add_term() and text != BACK) or
+            (user.is_request_to_add_sample() and text == BACK)
+        )
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
