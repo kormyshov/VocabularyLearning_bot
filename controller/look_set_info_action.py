@@ -5,6 +5,7 @@ from user import User
 from constants import BACK, THERE_IS_NO_SET
 from set_info import SetInfo
 from keyboards import get_mutable_set_info_menu, get_immutable_set_info_menu
+from controller.utils import parse_set_id_from_button_name, validate_set_id_in_button_name
 
 
 class LookSetInfoAction(AbstractAction):
@@ -19,7 +20,9 @@ class LookSetInfoAction(AbstractAction):
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
-        info: SetInfo = user.look_set_info(int(text.split(':')[0]))
+        info: SetInfo = user.look_set_info(
+            parse_set_id_from_button_name(text) if validate_set_id_in_button_name(text) else user.set_id
+        )
         if info is not None:
             viewer.view(
                 user.id,

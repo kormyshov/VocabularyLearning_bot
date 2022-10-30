@@ -4,6 +4,7 @@ from abstract_viewer import AbstractViewer
 from user import User
 from constants import BACK, SET_HAS_BEEN_DELETED, THERE_IS_NO_SET
 from controller.go_to_main_menu_action import GoToMainMenuAction
+from controller.utils import parse_set_id_from_button_name
 
 
 class DeleteSetAction(AbstractAction):
@@ -15,7 +16,7 @@ class DeleteSetAction(AbstractAction):
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
-        if user.delete_set(int(text.split(':')[0])):
+        if user.delete_set(parse_set_id_from_button_name(text)):
             viewer.view(user.id, SET_HAS_BEEN_DELETED)
             GoToMainMenuAction().do(viewer, user, text)
         else:
