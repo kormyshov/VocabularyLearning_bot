@@ -15,7 +15,11 @@ class User:
         self.database: AbstractBase = database
         self.loaded: bool = False
         self.state: UserState = UserState.START
-        self.data: int = 0
+        self.set_id: int = 0
+        self.term_id: int = 0
+        self.definition_id: int = 0
+        self.sample_id: int = 0
+        self.card_id: int = 0
 
     def __str__(self) -> str:
         return 'User(id: {}, state: {})'.format(
@@ -29,7 +33,11 @@ class User:
             try:
                 response: UserORM = self.database.get_user_info(self.id)
                 self.state = response.state
-                self.data = response.data
+                self.set_id = response.set_id
+                self.term_id = response.term_id
+                self.definition_id = response.definition_id
+                self.sample_id = response.sample_id
+                self.card_id = response.card_id
             except UserDoesntExistInDB:
                 pass
 
@@ -40,7 +48,11 @@ class User:
         self.database.set_user_info(UserORM(
             id=self.id,
             state=self.state,
-            data=self.data,
+            set_id=self.set_id,
+            term_id=self.term_id,
+            definition_id=self.definition_id,
+            sample_id=self.sample_id,
+            card_id=self.card_id,
         ))
 
     @logger
@@ -128,7 +140,7 @@ class User:
             set_orm = self.database.get_user_set_by_id(self.id, set_id)
             count_of_cards = self.database.get_count_of_cards(set_orm.origin_set_id)
             self.state = UserState.LOOK_SET_INFO
-            self.data = set_orm.origin_set_id
+            self.set_id = set_orm.origin_set_id
             return SetInfo(set_orm.name, count_of_cards, set_orm.id == set_orm.origin_set_id)
         except SetDoesntExistInDB:
             return None

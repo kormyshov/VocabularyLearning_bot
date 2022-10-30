@@ -15,4 +15,8 @@ class UserState(IntEnum):
 class UserORM(NamedTuple):
     id: str
     state: UserState
-    data: int
+    set_id: int
+    term_id: int
+    definition_id: int
+    sample_id: int
+    card_id: int

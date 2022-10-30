@@ -24,7 +24,7 @@ class Database(AbstractBase):
     def get_user_info(self, user_id: str) -> UserORM:
         def select(session):
             return session.transaction().execute(
-                'SELECT `id`, `state`, `data` FROM `users` WHERE `id` == "{}";'.format(user_id),
+                'SELECT `id`, `state`, `set_id`, `term_id`, `definition_id`, `sample_id`, `card_id` FROM `users` WHERE `id` == "{}";'.format(user_id),
                 commit_tx=True,
                 settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
             )
@@ -34,13 +34,29 @@ class Database(AbstractBase):
         if len(result[0].rows) == 0:
             raise UserDoesntExistInDB
 
-        return UserORM(id=user_id, state=result[0].rows[0].state, data=result[0].rows[0].data)
+        return UserORM(
+            id=user_id,
+            state=result[0].rows[0].state,
+            set_id=result[0].rows[0].set_id,
+            term_id=result[0].rows[0].term_id,
+            definition_id=result[0].rows[0].definition_id,
+            sample_id=result[0].rows[0].sample_id,
+            card_id=result[0].rows[0].card_id,
+        )
 
     @logger
     def set_user_info(self, user: UserORM) -> None:
         def upsert(session):
             return session.transaction().execute(
-                'UPSERT INTO `users` (`id`, `state`, `data`) VALUES ("{}", {}, {});'.format(user.id, user.state, user.data),
+                'UPSERT INTO `users` (`id`, `state`, `set_id`, `term_id`, `definition_id`, sample_id`, `card_id`) VALUES ("{}", {}, {}, {}, {}, {}, {});'.format(
+                    user.id,
+                    user.state,
+                    user.set_id,
+                    user.term_id,
+                    user.definition_id,
+                    user.sample_id,
+                    user.card_id,
+                ),
                 commit_tx=True,
                 settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
             )
