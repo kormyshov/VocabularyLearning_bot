@@ -177,7 +177,7 @@ class Database(AbstractBase):
     def get_term_id(self, term: str) -> int:
         def select(session):
             return session.transaction().execute(
-                'SELECT `id` FROM `terms` WHERE `term` == {};'.format(term),
+                'SELECT `id` FROM `terms` WHERE `term` == "{}";'.format(term),
                 commit_tx=True,
                 settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
             )
