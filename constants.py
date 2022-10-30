@@ -30,3 +30,5 @@ SET_HAS_BEEN_DELETED = 'Set has been deleted'
 ADD_CARD = 'Add card'
 DELETE_CARD = 'Delete card'
 LEARN = 'Learn'
+
+ENTER_NEW_TERM = 'Enter a new term'

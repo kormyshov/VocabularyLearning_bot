@@ -148,3 +148,11 @@ class User:
     @logger
     def is_look_set_info(self) -> bool:
         return self.state == UserState.LOOK_SET_INFO
+
+    @logger
+    def request_to_add_term(self) -> None:
+        self.state = UserState.REQUEST_TO_ADD_TERM
+
+    @logger
+    def is_request_to_add_term(self) -> bool:
+        return self.state == UserState.REQUEST_TO_ADD_TERM
