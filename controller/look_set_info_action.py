@@ -2,7 +2,7 @@ from logging_decorator import logger
 from controller.abstract_action import AbstractAction
 from abstract_viewer import AbstractViewer
 from user import User
-from constants import BACK, THERE_IS_NO_SET
+from constants import BACK, THERE_IS_NO_SET, LOOK_SET_INFO
 from set_info import SetInfo
 from keyboards import get_mutable_set_info_menu, get_immutable_set_info_menu
 from controller.utils import parse_set_id_from_button_name, validate_set_id_in_button_name
@@ -16,7 +16,7 @@ class LookSetInfoAction(AbstractAction):
         return (
             (user.is_request_to_look_set_info() and text != BACK) or
             (user.is_request_to_add_term() and text == BACK) or
-            (user.is_look_card_info() and text == BACK)
+            (user.is_look_card_info() and text == LOOK_SET_INFO)
         )
 
     @logger

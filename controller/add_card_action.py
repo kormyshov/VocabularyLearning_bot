@@ -3,7 +3,7 @@ from controller.abstract_action import AbstractAction
 from abstract_viewer import AbstractViewer
 from user import User
 from constants import BACK
-from keyboards import get_back
+from keyboards import get_look_set_info
 from card_info import CardInfo
 
 
@@ -22,5 +22,5 @@ class AddCardAction(AbstractAction):
         viewer.view(
             user.id,
             '**{}**\n\n{}\n\n{}'.format(info.term, info.definition, info.sample),
-            get_back(),
+            get_look_set_info(),
         )

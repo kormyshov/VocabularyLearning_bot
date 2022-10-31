@@ -46,3 +46,9 @@ def get_immutable_set_info_menu() -> Tuple[str, ...]:
         constants.LEARN,
         constants.BACK,
     )
+
+
+def get_look_set_info() -> Tuple[str, ...]:
+    return (
+        constants.LOOK_SET_INFO,
+    )
