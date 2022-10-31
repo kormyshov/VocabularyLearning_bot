@@ -6,10 +6,13 @@ from abstract_base import (
     SetDoesntExistInDB,
     TermDoesntExistInDB,
     DefinitionDoesntExistInDB,
+    SampleDoesntExistInDB,
+    CardDoesntExistInDB,
 )
 from user_orm import UserState, UserORM
 from set_orm import SetORM
 from set_info import SetInfo
+from card_info import CardInfo
 
 
 MAX_SET_COUNT = 5
@@ -200,3 +203,29 @@ class User:
         except DefinitionDoesntExistInDB:
             definition_id = self.database.create_definition(self.set_id, self.term_id, definition)
         return definition_id
+
+    @logger
+    def add_sample(self, sample: str) -> int:
+        try:
+            sample_id = self.database.get_sample_id(self.term_id, sample)
+        except SampleDoesntExistInDB:
+            sample_id = self.database.create_sample(self.set_id, self.term_id, sample)
+        return sample_id
+
+    @logger
+    def add_card(self, set_id: int, term_id: int, definition_id: int, sample_id: int) -> int:
+        return self.database.create_card(set_id, term_id, definition_id, sample_id)
+
+    @logger
+    def look_card_info(self, card_id: int) -> Optional[CardInfo]:
+        try:
+            card_info = self.database.get_card_info(card_id)
+            self.state = UserState.LOOK_CARD_INFO
+            self.card_id = card_id
+            return card_info
+        except CardDoesntExistInDB:
+            return None
+
+    @logger
+    def is_look_card_info(self) -> bool:
+        return self.state == UserState.LOOK_CARD_INFO

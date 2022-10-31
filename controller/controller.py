@@ -18,6 +18,7 @@ from controller.delete_set_action import DeleteSetAction
 from controller.request_to_add_term_action import RequestToAddTermAction
 from controller.request_to_add_definition_action import RequestToAddDefinitionAction
 from controller.request_to_add_sample_action import RequestToAddSampleAction
+from controller.add_card_action import AddCardAction
 
 
 class Controller:
@@ -37,6 +38,7 @@ class Controller:
         RequestToAddTermAction(),
         RequestToAddDefinitionAction(),
         RequestToAddSampleAction(),
+        AddCardAction(),
     )
 
     def __init__(self, database: AbstractBase, viewer: AbstractViewer):

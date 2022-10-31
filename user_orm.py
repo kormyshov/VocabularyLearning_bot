@@ -13,6 +13,7 @@ class UserState(IntEnum):
     REQUEST_TO_ADD_TERM = 7
     REQUEST_TO_ADD_DEFINITION = 8
     REQUEST_TO_ADD_SAMPLE = 9
+    LOOK_CARD_INFO = 10
 
 
 class UserORM(NamedTuple):

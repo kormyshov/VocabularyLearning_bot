@@ -3,6 +3,7 @@ import ydb
 import random
 from typing import Collection
 
+from card_info import CardInfo
 from logging_decorator import logger
 from set_orm import SetORM
 from user_orm import UserORM
@@ -12,6 +13,8 @@ from abstract_base import (
     SetDoesntExistInDB,
     TermDoesntExistInDB,
     DefinitionDoesntExistInDB,
+    SampleDoesntExistInDB,
+    CardDoesntExistInDB,
 )
 
 
@@ -247,3 +250,95 @@ class Database(AbstractBase):
         self.pool.retry_operation_sync(upsert)
 
         return definition_id
+
+    @logger
+    def get_sample_id(self, term_id: int, sample: str) -> int:
+        def select(session):
+            return session.transaction().execute(
+                'SELECT `id` FROM `samples` WHERE `sample` == "{}" AND `term_id` == {};'.format(
+                    sample,
+                    term_id,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+
+        if len(result[0].rows) == 0:
+            raise SampleDoesntExistInDB
+
+        return result[0].rows[0].id
+
+    @logger
+    def create_sample(self, set_id: int, term_id: int, sample: str) -> int:
+        sample_id = set_id * 1000000 + random.randint(0, 999999)
+
+        def upsert(session):
+            return session.transaction().execute(
+                'UPSERT INTO `samples` (`id`, `term_id`, `sample`) VALUES ({}, {}, "{}");'.format(
+                    sample_id,
+                    term_id,
+                    sample,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        self.pool.retry_operation_sync(upsert)
+
+        return sample_id
+
+    def create_card(self, set_id: int, term_id: int, definition_id: int, sample_id: int) -> int:
+        card_id = set_id * 1000000 + random.randint(0, 999999)
+
+        def upsert(session):
+            return session.transaction().execute(
+                'UPSERT INTO `cards` (`id`, `set_id`, `term_id`, `definition_id`, `sample_id`) VALUES ({}, {}, {}, {}, {});'.format(
+                    card_id,
+                    set_id,
+                    term_id,
+                    definition_id,
+                    sample_id,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        self.pool.retry_operation_sync(upsert)
+
+        return card_id
+
+    def get_card_info(self, card_id: int) -> CardInfo:
+        def select(session):
+            return session.transaction().execute(
+                '''
+                    SELECT
+                        `term`, `definition`, `sample`
+                    FROM (
+                        SELECT `term_id`, `definition_id`, `sample_id` FROM `cards` WHERE `id` == {}
+                    ) as `a`
+                    LEFT JOIN `terms` as `b`
+                    ON `a`.`term_id` == `b`.`id`
+                    LEFT JOIN `definitions` as `c`
+                    ON `a`.`definition_id` == `c`.`id`
+                    LEFT JOIN `samples` as `d`
+                    ON `a`.`sample_id` == `d`.`id`
+                    ;
+                '''.format(
+                    card_id,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+
+        if len(result[0].rows) == 0:
+            raise CardDoesntExistInDB
+
+        return CardInfo(
+            term=result[0].rows[0].term.decode('utf-8'),
+            definition=result[0].rows[0].definition.decode('utf-8'),
+            sample=result[0].rows[0].sample.decode('utf-8'),
+        )

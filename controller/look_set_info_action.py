@@ -15,7 +15,8 @@ class LookSetInfoAction(AbstractAction):
     def check(self, user: User, text: str) -> bool:
         return (
             (user.is_request_to_look_set_info() and text != BACK) or
-            (user.is_request_to_add_term() and text == BACK)
+            (user.is_request_to_add_term() and text == BACK) or
+            (user.is_look_card_info() and text == BACK)
         )
 
     @logger

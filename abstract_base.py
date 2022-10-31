@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Collection
 from set_orm import SetORM
 from user_orm import UserORM
+from card_info import CardInfo
 
 
 class AbstractBase(ABC):
@@ -57,6 +58,22 @@ class AbstractBase(ABC):
     def create_definition(self, set_id: int, term_id: int, definition: str) -> int:
         pass
 
+    @abstractmethod
+    def get_sample_id(self, term_id: int, sample: str) -> int:
+        pass
+
+    @abstractmethod
+    def create_sample(self, set_id: int, term_id: int, sample: str) -> int:
+        pass
+
+    @abstractmethod
+    def create_card(self, set_id: int, term_id: int, definition_id: int, sample_id: int) -> int:
+        pass
+
+    @abstractmethod
+    def get_card_info(self, card_id: int) -> CardInfo:
+        pass
+
 
 class UserDoesntExistInDB(Exception):
     pass
@@ -71,4 +88,12 @@ class TermDoesntExistInDB(Exception):
 
 
 class DefinitionDoesntExistInDB(Exception):
+    pass
+
+
+class SampleDoesntExistInDB(Exception):
+    pass
+
+
+class CardDoesntExistInDB(Exception):
     pass

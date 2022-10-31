@@ -3,7 +3,7 @@ from controller.abstract_action import AbstractAction
 from abstract_viewer import AbstractViewer
 from user import User
 from constants import BACK, ENTER_DEFINITION
-from keyboards import get_empty
+from keyboards import get_back
 
 
 class RequestToAddDefinitionAction(AbstractAction):
@@ -20,4 +20,4 @@ class RequestToAddDefinitionAction(AbstractAction):
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
         term_id = user.add_term(text) if user.is_request_to_add_term else user.term_id
         user.request_to_add_definition(term_id)
-        viewer.view(user.id, ENTER_DEFINITION, get_empty())
+        viewer.view(user.id, ENTER_DEFINITION, get_back())
