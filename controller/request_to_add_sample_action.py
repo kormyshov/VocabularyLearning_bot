@@ -3,7 +3,7 @@ from controller.abstract_action import AbstractAction
 from abstract_viewer import AbstractViewer
 from user import User
 from constants import BACK, ENTER_SAMPLE
-from keyboards import get_empty
+from keyboards import get_back
 
 
 class RequestToAddSampleAction(AbstractAction):
@@ -17,4 +17,4 @@ class RequestToAddSampleAction(AbstractAction):
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
         definition_id = user.add_definition(text)
         user.request_to_add_sample(definition_id)
-        viewer.view(user.id, ENTER_SAMPLE.format(text), get_empty())
+        viewer.view(user.id, ENTER_SAMPLE.format(text), get_back())
