@@ -19,6 +19,7 @@ from controller.request_to_add_term_action import RequestToAddTermAction
 from controller.request_to_add_definition_action import RequestToAddDefinitionAction
 from controller.request_to_add_sample_action import RequestToAddSampleAction
 from controller.add_card_action import AddCardAction
+from controller.request_to_learn_set_action import RequestToLearnSetAction
 
 
 class Controller:
@@ -39,6 +40,7 @@ class Controller:
         RequestToAddDefinitionAction(),
         RequestToAddSampleAction(),
         AddCardAction(),
+        RequestToLearnSetAction(),
     )
 
     def __init__(self, database: AbstractBase, viewer: AbstractViewer):

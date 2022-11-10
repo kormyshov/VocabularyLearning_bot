@@ -14,7 +14,8 @@ class GoToMainMenuAction(AbstractAction):
         return (
             (user.is_request_to_add_set() and text == BACK) or
             (user.is_request_to_look_set_info() and text == BACK) or
-            (user.is_request_to_delete_set() and text == BACK)
+            (user.is_request_to_delete_set() and text == BACK) or
+            (user.is_request_to_learn_set() and text == BACK)
         )
 
     @logger

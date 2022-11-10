@@ -229,3 +229,12 @@ class User:
     @logger
     def is_look_card_info(self) -> bool:
         return self.state == UserState.LOOK_CARD_INFO
+
+    @logger
+    def request_to_learn_set(self) -> Iterable[str]:
+        self.state = UserState.REQUEST_TO_LEARN_SET
+        return map(lambda e: '{}: {}'.format(e.id, e.name), self.get_sets())
+
+    @logger
+    def is_request_to_learn_set(self) -> bool:
+        return self.state == UserState.REQUEST_TO_LEARN_SET
