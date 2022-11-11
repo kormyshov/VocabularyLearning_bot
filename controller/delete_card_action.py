@@ -3,7 +3,6 @@ from controller.abstract_action import AbstractAction
 from abstract_viewer import AbstractViewer
 from user import User
 from constants import BACK, CARD_HAS_BEEN_DELETED, THERE_IS_NO_CARD
-from controller.go_to_main_menu_action import GoToMainMenuAction
 from controller.look_set_info_action import LookSetInfoAction
 
 
