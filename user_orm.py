@@ -15,6 +15,7 @@ class UserState(IntEnum):
     REQUEST_TO_ADD_SAMPLE = 9
     LOOK_CARD_INFO = 10
     REQUEST_TO_LEARN_SET = 11
+    REQUEST_TO_DELETE_CARD = 12
 
 
 class UserORM(NamedTuple):

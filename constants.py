@@ -36,3 +36,5 @@ LEARN = 'Learn'
 ENTER_NEW_TERM = 'Enter a new term'
 ENTER_DEFINITION = 'Enter a definition'
 ENTER_SAMPLE = 'Enter a sample of using'
+
+ENTER_TERM = 'Enter term to delete'

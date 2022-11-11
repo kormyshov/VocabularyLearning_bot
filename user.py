@@ -238,3 +238,11 @@ class User:
     @logger
     def is_request_to_learn_set(self) -> bool:
         return self.state == UserState.REQUEST_TO_LEARN_SET
+
+    @logger
+    def request_to_delete_card(self) -> None:
+        self.state = UserState.REQUEST_TO_DELETE_CARD
+
+    @logger
+    def is_request_to_delete_card(self) -> bool:
+        return self.state == UserState.REQUEST_TO_DELETE_CARD

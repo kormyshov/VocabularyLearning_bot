@@ -16,7 +16,8 @@ class LookSetInfoAction(AbstractAction):
         return (
             (user.is_request_to_look_set_info() and text != BACK) or
             (user.is_request_to_add_term() and text == BACK) or
-            (user.is_look_card_info() and text == LOOK_SET_INFO)
+            (user.is_look_card_info() and text == LOOK_SET_INFO) or
+            (user.is_request_to_delete_card() and text == BACK)
         )
 
     @logger
