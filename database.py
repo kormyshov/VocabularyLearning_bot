@@ -342,3 +342,42 @@ class Database(AbstractBase):
             definition=result[0].rows[0].definition.decode('utf-8'),
             sample=result[0].rows[0].sample.decode('utf-8'),
         )
+
+    def get_card_of_set_by_term(self, set_id: int, term: str) -> int:
+        def select(session):
+            return session.transaction().execute(
+                '''
+                    SELECT
+                        `b`.`id` as `id`
+                    FROM (
+                        SELECT `id` FROM `terms` WHERE `term` == "{}"
+                    ) as `a`
+                    LEFT JOIN (
+                        SELECT `id`, `term_id` FROM `cards` WHERE `set_id` = {}
+                    ) as `b`
+                    ON `a`.`id` == `b`.`term_id`
+                    ;
+                '''.format(
+                    term,
+                    set_id,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+
+        if len(result[0].rows) == 0:
+            raise CardDoesntExistInDB
+
+        return result[0].rows[0].id
+
+    def delete_card_by_id(self, card_id) -> None:
+        def upsert(session):
+            return session.transaction().execute(
+                'UPSERT INTO `cards` (`id`, `set_id`, `term_id`, `definition_id`, `sample_id`) VALUES ({}, 0, 0, 0, 0)'.format(card_id),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        self.pool.retry_operation_sync(upsert)

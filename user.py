@@ -246,3 +246,12 @@ class User:
     @logger
     def is_request_to_delete_card(self) -> bool:
         return self.state == UserState.REQUEST_TO_DELETE_CARD
+
+    @logger
+    def delete_card(self, term: str) -> bool:
+        try:
+            card_id = self.database.get_card_of_set_by_term(self.set_id, term)
+            self.database.delete_card_by_id(card_id)
+            return True
+        except CardDoesntExistInDB:
+            return False

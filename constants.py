@@ -38,3 +38,5 @@ ENTER_DEFINITION = 'Enter a definition'
 ENTER_SAMPLE = 'Enter a sample of using'
 
 ENTER_TERM = 'Enter term to delete'
+CARD_HAS_BEEN_DELETED = 'Card has been deleted'
+THERE_IS_NO_CARD = 'There is no card with that term. Enter another term'

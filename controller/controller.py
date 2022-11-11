@@ -21,6 +21,7 @@ from controller.request_to_add_sample_action import RequestToAddSampleAction
 from controller.add_card_action import AddCardAction
 from controller.request_to_learn_set_action import RequestToLearnSetAction
 from controller.request_to_delete_card_action import RequestToDeleteCardAction
+from controller.delete_card_action import DeleteCardAction
 
 
 class Controller:
@@ -43,6 +44,7 @@ class Controller:
         AddCardAction(),
         RequestToLearnSetAction(),
         RequestToDeleteCardAction(),
+        DeleteCardAction(),
     )
 
     def __init__(self, database: AbstractBase, viewer: AbstractViewer):

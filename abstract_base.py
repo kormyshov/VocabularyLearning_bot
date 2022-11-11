@@ -74,6 +74,14 @@ class AbstractBase(ABC):
     def get_card_info(self, card_id: int) -> CardInfo:
         pass
 
+    @abstractmethod
+    def get_card_of_set_by_term(self, set_id: int, term: str) -> int:
+        pass
+
+    @abstractmethod
+    def delete_card_by_id(self, card_id) -> None:
+        pass
+
 
 class UserDoesntExistInDB(Exception):
     pass
