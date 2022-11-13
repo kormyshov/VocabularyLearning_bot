@@ -266,3 +266,7 @@ class User:
             return self.database.get_card_info(card_id).definition
         except SetIsEmpty:
             return None
+
+    @logger
+    def is_request_term_by_definition(self) -> bool:
+        return self.state == UserState.REQUEST_TERM_BY_DEFINITION

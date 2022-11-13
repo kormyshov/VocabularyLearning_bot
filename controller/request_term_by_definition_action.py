@@ -23,6 +23,6 @@ class RequestTermByDefinitionAction(AbstractAction):
             parse_set_id_from_button_name(text) if validate_set_id_in_button_name(text) else user.set_id
         )
         if definition is not None:
-            viewer.view(user.id, ENTER_TERM_WITH_DEFINITION)
+            viewer.view(user.id, ENTER_TERM_WITH_DEFINITION, keyboards.get_back())
         else:
             viewer.view(user.id, SET_IS_EMPTY)
