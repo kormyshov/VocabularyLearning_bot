@@ -15,6 +15,7 @@ from abstract_base import (
     DefinitionDoesntExistInDB,
     SampleDoesntExistInDB,
     CardDoesntExistInDB,
+    SetIsEmpty,
 )
 
 
@@ -381,3 +382,38 @@ class Database(AbstractBase):
             )
 
         self.pool.retry_operation_sync(upsert)
+
+    def get_card_id_to_repeat(self, user_id: str, set_id: int) -> int:
+        def select(session):
+            return session.transaction().execute(
+                '''
+                    SELECT
+                        `a`.`id` as `id`,
+                        IF (`last_repetition` IS NULL,
+                            "1970-01-01",
+                            CAST(CAST(`last_repetition` as Date) + DateTime::IntervalFromDays(CAST(`repetition_interval` ?? 0 as Int32)) as String)
+                        ) as `next_repetition`,
+                    FROM (
+                        SELECT `id` FROM `cards` WHERE `set_id` == {}
+                    ) as `a`
+                    LEFT JOIN (
+                        SELECT `card_id`, `repetition_interval`, `last_repetition` FROM `repeats` WHERE `user_id` == "{}"
+                    ) as `b`
+                    ON `a`.`id` == `b`.`card_id`
+                    ORDER BY `next_repetition`
+                    LIMIT 1
+                    ;
+                '''.format(
+                    set_id,
+                    user_id,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+
+        if len(result[0].rows) == 0:
+            raise SetIsEmpty
+
+        return result[0].rows[0].id

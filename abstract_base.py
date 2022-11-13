@@ -82,6 +82,10 @@ class AbstractBase(ABC):
     def delete_card_by_id(self, card_id) -> None:
         pass
 
+    @abstractmethod
+    def get_card_id_to_repeat(self, user_id: str, set_id: int) -> int:
+        pass
+
 
 class UserDoesntExistInDB(Exception):
     pass
@@ -104,4 +108,8 @@ class SampleDoesntExistInDB(Exception):
 
 
 class CardDoesntExistInDB(Exception):
+    pass
+
+
+class SetIsEmpty(Exception):
     pass

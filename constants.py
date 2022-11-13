@@ -40,3 +40,6 @@ ENTER_SAMPLE = 'Enter a sample of using'
 ENTER_TERM = 'Enter term to delete'
 CARD_HAS_BEEN_DELETED = 'Card has been deleted'
 THERE_IS_NO_CARD = 'There is no card with that term. Enter another term'
+
+SET_IS_EMPTY = 'Set is empty'
+ENTER_TERM_WITH_DEFINITION = 'Enter term with definition'

@@ -8,6 +8,7 @@ from abstract_base import (
     DefinitionDoesntExistInDB,
     SampleDoesntExistInDB,
     CardDoesntExistInDB,
+    SetIsEmpty,
 )
 from user_orm import UserState, UserORM
 from set_orm import SetORM
@@ -255,3 +256,13 @@ class User:
             return True
         except CardDoesntExistInDB:
             return False
+
+    @logger
+    def request_term_by_definition(self, set_id: int) -> Optional[str]:
+        try:
+            card_id = self.database.get_card_id_to_repeat(self.id, set_id)
+            self.state = UserState.REQUEST_TERM_BY_DEFINITION
+            self.card_id = card_id
+            return self.database.get_card_info(card_id).definition
+        except SetIsEmpty:
+            return None
