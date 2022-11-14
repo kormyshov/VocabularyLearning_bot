@@ -18,6 +18,12 @@ def get_back() -> Tuple[str, ...]:
     )
 
 
+def get_cancel() -> Tuple[str, ...]:
+    return (
+        constants.CANCEL,
+    )
+
+
 def get_sets(sets_names: Iterable[str]) -> List[str]:
     keyboard = [set_name for set_name in sets_names]
     keyboard.append(constants.BACK)
