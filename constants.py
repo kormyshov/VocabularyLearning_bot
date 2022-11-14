@@ -43,5 +43,7 @@ THERE_IS_NO_CARD = 'There is no card with that term. Enter another term'
 
 SET_IS_EMPTY = 'Set is empty'
 ENTER_TERM_WITH_DEFINITION = 'Enter term with definition'
+RIGHT = 'Right!'
+ENTER_TERM_WITH_SAMPLE = 'It is used in'
 
 CANCEL = 'Cancel'

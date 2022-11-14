@@ -3,6 +3,7 @@ from typing import Collection
 from set_orm import SetORM
 from user_orm import UserORM
 from card_info import CardInfo
+from repetition_orm import RepetitionORM
 
 
 class AbstractBase(ABC):
@@ -86,6 +87,14 @@ class AbstractBase(ABC):
     def get_card_id_to_repeat(self, user_id: str, set_id: int) -> int:
         pass
 
+    @abstractmethod
+    def get_repetition(self, user_id: str, card_it: int) -> RepetitionORM:
+        pass
+
+    @abstractmethod
+    def set_repetition(self, repetition: RepetitionORM) -> None:
+        pass
+
 
 class UserDoesntExistInDB(Exception):
     pass
@@ -112,4 +121,8 @@ class CardDoesntExistInDB(Exception):
 
 
 class SetIsEmpty(Exception):
+    pass
+
+
+class RepetitionDoesntExistInDB(Exception):
     pass

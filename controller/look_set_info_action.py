@@ -18,7 +18,8 @@ class LookSetInfoAction(AbstractAction):
             (user.is_request_to_add_term() and text == BACK) or
             (user.is_look_card_info() and text == LOOK_SET_INFO) or
             (user.is_request_to_delete_card() and text == BACK) or
-            (user.is_request_term_by_definition() and text == CANCEL)
+            (user.is_request_term_by_definition() and text == CANCEL) or
+            (user.is_request_term_by_sample() and text == CANCEL)
         )
 
     @logger

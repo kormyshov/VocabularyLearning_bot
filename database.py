@@ -7,6 +7,8 @@ from card_info import CardInfo
 from logging_decorator import logger
 from set_orm import SetORM
 from user_orm import UserORM
+from repetition_orm import RepetitionORM
+from sm import SM
 from abstract_base import (
     AbstractBase,
     UserDoesntExistInDB,
@@ -16,6 +18,7 @@ from abstract_base import (
     SampleDoesntExistInDB,
     CardDoesntExistInDB,
     SetIsEmpty,
+    RepetitionDoesntExistInDB,
 )
 
 
@@ -417,3 +420,72 @@ class Database(AbstractBase):
             raise SetIsEmpty
 
         return result[0].rows[0].id
+
+    @logger
+    def get_repetition(self, user_id: str, card_id: int) -> RepetitionORM:
+        def select(session):
+            return session.transaction().execute(
+                '''
+                    SELECT
+                        `user_id`,
+                        `card_id`,
+                        `repetition_number`,
+                        `easiness_factor`,
+                        `repetition_interval`,
+                        `last_repetition`
+                    FROM `repetitions`
+                    WHERE `user_id` == "{}" AND `card_id` == {}}
+                    ;
+                '''.format(
+                    user_id,
+                    card_id,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+
+        if len(result[0].rows) == 0:
+            raise RepetitionDoesntExistInDB
+
+        return RepetitionORM(
+            user_id=result[0].rows[0].user_id,
+            card_id=result[0].rows[0].card_id,
+            sm=SM(
+                repetition_number=result[0].rows[0].repetition_number,
+                easiness_factor=result[0].rows[0].easiness_factor,
+                repetition_interval=result[0].rows[0].repetition_interval,
+            ),
+            last_repetition=result[0].rows[0].last_repetition,
+        )
+
+    @logger
+    def set_repetition(self, repetition: RepetitionORM) -> None:
+        def upsert(session):
+            return session.transaction().execute(
+                '''
+                    UPSERT INTO `repetitions` (
+                        `user_id`,
+                        `card_id`,
+                        `repetition_number`,
+                        `easiness_factor`,
+                        `repetition_interval`,
+                        `last_repetition`
+                    ) VALUES (
+                        "{}", {}, {}, {}, {}, "{}"
+                    )
+                    ;
+                '''.format(
+                    repetition.user_id,
+                    repetition.card_id,
+                    repetition.sm.repetition_number,
+                    repetition.sm.easiness_factor,
+                    repetition.sm.repetition_interval,
+                    repetition.last_repetition,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        self.pool.retry_operation_sync(upsert)

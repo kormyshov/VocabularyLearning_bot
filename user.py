@@ -9,11 +9,16 @@ from abstract_base import (
     SampleDoesntExistInDB,
     CardDoesntExistInDB,
     SetIsEmpty,
+    RepetitionDoesntExistInDB,
 )
 from user_orm import UserState, UserORM
 from set_orm import SetORM
 from set_info import SetInfo
 from card_info import CardInfo
+from repetition_orm import RepetitionORM
+from super_memo import Grade, change_sm
+from sm import get_default_sm
+from datetime import date
 
 
 MAX_SET_COUNT = 5
@@ -270,3 +275,31 @@ class User:
     @logger
     def is_request_term_by_definition(self) -> bool:
         return self.state == UserState.REQUEST_TERM_BY_DEFINITION
+
+    @logger
+    def is_term_right(self, term: str) -> bool:
+        card_info = self.database.get_card_info(self.card_id)
+        return term.lower().strip() == card_info.term.lower().strip()
+
+    @logger
+    def request_term_by_sample(self) -> str:
+        self.state = UserState.REQUEST_TERM_BY_SAMPLE
+        return self.database.get_card_info(self.card_id).sample
+
+    @logger
+    def is_request_term_by_sample(self) -> bool:
+        return self.state == UserState.REQUEST_TERM_BY_SAMPLE
+
+    @logger
+    def update_repetition(self, grade: Grade) -> None:
+        try:
+            repetition_orm = self.database.get_repetition(self.id, self.card_id)
+            sm = change_sm(repetition_orm.sm, grade)
+        except RepetitionDoesntExistInDB:
+            sm = get_default_sm()
+        self.database.set_repetition(RepetitionORM(
+            user_id=self.id,
+            card_id=self.card_id,
+            sm=sm,
+            last_repetition=date.today().strftime('%Y-%m-%d'),
+        ))
