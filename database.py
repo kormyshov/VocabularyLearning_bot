@@ -433,7 +433,7 @@ class Database(AbstractBase):
                         `easiness_factor`,
                         `repetition_interval`,
                         `last_repetition`
-                    FROM `repetitions`
+                    FROM `repeats`
                     WHERE `user_id` == "{}" AND `card_id` == {}}
                     ;
                 '''.format(
@@ -465,7 +465,7 @@ class Database(AbstractBase):
         def upsert(session):
             return session.transaction().execute(
                 '''
-                    UPSERT INTO `repetitions` (
+                    UPSERT INTO `repeats` (
                         `user_id`,
                         `card_id`,
                         `repetition_number`,
