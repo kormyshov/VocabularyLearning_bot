@@ -88,7 +88,7 @@ class AbstractBase(ABC):
         pass
 
     @abstractmethod
-    def get_repetition(self, user_id: str, card_it: int) -> RepetitionORM:
+    def get_repetition(self, user_id: str, card_id: int) -> RepetitionORM:
         pass
 
     @abstractmethod

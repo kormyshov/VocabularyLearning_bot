@@ -434,7 +434,7 @@ class Database(AbstractBase):
                         `repetition_interval`,
                         `last_repetition`
                     FROM `repeats`
-                    WHERE `user_id` == "{}" AND `card_id` == {}}
+                    WHERE `user_id` == "{}" AND `card_id` == {}
                     ;
                 '''.format(
                     user_id,
