@@ -305,9 +305,13 @@ class User:
         ))
 
     @logger
+    def get_term_of_current_card(self) -> str:
+        return self.database.get_card_info(self.card_id).term
+
+    @logger
     def request_term_by_mask(self) -> str:
         self.state = UserState.REQUEST_TERM_BY_MASK
-        return self.database.get_card_info(self.card_id).term
+        return self.get_term_of_current_card()
 
     @logger
     def is_request_term_by_mask(self) -> bool:

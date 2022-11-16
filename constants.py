@@ -46,5 +46,6 @@ ENTER_TERM_WITH_DEFINITION = 'Enter term with definition'
 RIGHT = 'Right!'
 ENTER_TERM_WITH_SAMPLE = 'It is used in'
 ENTER_TERM_WITH_MASK = 'Term looks like'
+IT_WAS = 'It was'
 
 CANCEL = 'Cancel'
