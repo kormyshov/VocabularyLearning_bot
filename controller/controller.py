@@ -24,6 +24,7 @@ from controller.request_to_delete_card_action import RequestToDeleteCardAction
 from controller.delete_card_action import DeleteCardAction
 from controller.request_term_by_definition_action import RequestTermByDefinitionAction
 from controller.request_term_by_sample_action import RequestTermBySampleAction
+from controller.request_term_by_mask_action import RequestTermByMaskAction
 
 
 class Controller:
@@ -49,6 +50,7 @@ class Controller:
         DeleteCardAction(),
         RequestTermByDefinitionAction(),
         RequestTermBySampleAction(),
+        RequestTermByMaskAction(),
     )
 
     def __init__(self, database: AbstractBase, viewer: AbstractViewer):

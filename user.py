@@ -303,3 +303,12 @@ class User:
             sm=sm,
             last_repetition=date.today().strftime('%Y-%m-%d'),
         ))
+
+    @logger
+    def request_term_by_mask(self) -> str:
+        self.state = UserState.REQUEST_TERM_BY_MASK
+        return self.database.get_card_info(self.card_id).term
+
+    @logger
+    def is_request_term_by_mask(self) -> bool:
+        return self.state == UserState.REQUEST_TERM_BY_MASK

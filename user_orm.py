@@ -18,6 +18,7 @@ class UserState(IntEnum):
     REQUEST_TO_DELETE_CARD = 12
     REQUEST_TERM_BY_DEFINITION = 13
     REQUEST_TERM_BY_SAMPLE = 14
+    REQUEST_TERM_BY_MASK = 15
 
 
 class UserORM(NamedTuple):
