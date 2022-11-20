@@ -10,6 +10,7 @@ from controller.request_term_by_definition_action import RequestTermByDefinition
 
 
 def replace_term_to_stars(term: str) -> str:
+    random.seed(term)
     return re.sub(
         r'\w',
         lambda m: m.group() if random.randint(0, 1) else '?',
