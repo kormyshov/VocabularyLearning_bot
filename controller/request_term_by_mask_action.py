@@ -9,7 +9,7 @@ import keyboards
 from controller.request_term_by_definition_action import RequestTermByDefinitionAction
 
 
-def replace_term_to_stars(term: str) -> str:
+def replace_term_to_mask(term: str) -> str:
     random.seed(term)
     return re.sub(
         r'\w',
@@ -34,4 +34,4 @@ class RequestTermByMaskAction(AbstractAction):
         else:
             term = user.request_term_by_mask()
             viewer.view(user.id, ENTER_TERM_WITH_MASK)
-            viewer.view(user.id, term, keyboards.get_cancel())
+            viewer.view(user.id, replace_term_to_mask(term), keyboards.get_cancel())
