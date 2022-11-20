@@ -282,9 +282,13 @@ class User:
         return term.lower().strip() == card_info.term.lower().strip()
 
     @logger
+    def get_sample_of_current_card(self) -> str:
+        return self.database.get_card_info(self.card_id).sample
+
+    @logger
     def request_term_by_sample(self) -> str:
         self.state = UserState.REQUEST_TERM_BY_SAMPLE
-        return self.database.get_card_info(self.card_id).sample
+        return self.get_sample_of_current_card()
 
     @logger
     def is_request_term_by_sample(self) -> bool:
