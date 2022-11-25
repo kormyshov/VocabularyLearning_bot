@@ -30,7 +30,7 @@ class RequestTermBySampleAction(AbstractAction):
             viewer.view(user.id, RIGHT)
             sample = user.get_sample_of_current_card()
             viewer.view(user.id, IT_IS_USED_IN)
-            viewer.view(user.id, sample)
+            viewer.view(user.id, sample.replace('[', '').replace(']', ''))
             RequestTermByDefinitionAction().do(viewer, user, '')
         else:
             sample = user.request_term_by_sample()
