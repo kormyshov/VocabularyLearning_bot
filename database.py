@@ -33,6 +33,9 @@ class Database(AbstractBase):
         self.driver.wait(fail_fast=True, timeout=5)
         self.pool = ydb.SessionPool(self.driver)
 
+    def __del__(self):
+        self.pool.stop()
+
     @logger
     def get_user_info(self, user_id: str) -> UserORM:
         def select(session):
