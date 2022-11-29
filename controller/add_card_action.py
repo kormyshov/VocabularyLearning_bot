@@ -21,6 +21,6 @@ class AddCardAction(AbstractAction):
         info: CardInfo = user.look_card_info(card_id)
         viewer.view(
             user.id,
-            '**{}**\n\n{}\n\n{}'.format(info.term, info.definition, info.sample),
+            '<b>{}</b>\n\n{}\n\n{}'.format(info.term, info.definition, info.sample),
             get_look_set_info(),
         )
