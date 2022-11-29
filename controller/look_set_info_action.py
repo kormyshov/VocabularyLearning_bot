@@ -31,7 +31,7 @@ class LookSetInfoAction(AbstractAction):
         if info is not None:
             viewer.view(
                 user.id,
-                '*{}*\n\n{} cards'.format(info.name, info.count_of_cards),
+                '<b>{}</b>\n\n{} cards'.format(info.name, info.count_of_cards),
                 get_mutable_set_info_menu() if info.is_mutable else get_immutable_set_info_menu()
             )
         else:
