@@ -16,7 +16,7 @@ class TelegramViewer(AbstractViewer):
 
     def view(self, player_id: str, message: str, keyboard: Optional[Iterable[str]] = None) -> None:
         if keyboard is not None:
-            bot.send_message(player_id, message, reply_markup=self.get_keyboard(keyboard))
+            bot.send_message(player_id, message, reply_markup=self.get_keyboard(keyboard), parse_mode='HTML')
         else:
             bot.send_message(player_id, message)
 
