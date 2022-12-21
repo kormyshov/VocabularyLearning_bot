@@ -429,11 +429,6 @@ class Database(AbstractBase):
         if len(result[0].rows) == 0:
             raise SetIsEmpty
 
-        print(result[0])
-        print(result[0].rows[0])
-        print(result[0].rows[0].next_repetition)
-        print(date.today())
-        print(str(date.today()))
         if result[0].rows[0].next_repetition.decode('utf-8') > str(date.today()):
             raise AllTermsRepeated
 
