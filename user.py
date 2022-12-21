@@ -10,6 +10,7 @@ from abstract_base import (
     CardDoesntExistInDB,
     SetIsEmpty,
     RepetitionDoesntExistInDB,
+    AllTermsRepeated,
 )
 from user_orm import UserState, UserORM
 from set_orm import SetORM
@@ -270,7 +271,9 @@ class User:
             self.card_id = card_id
             return self.database.get_card_info(card_id).definition
         except SetIsEmpty:
-            return None
+            raise SetIsEmpty
+        except AllTermsRepeated:
+            raise AllTermsRepeated
 
     @logger
     def is_request_term_by_definition(self) -> bool:

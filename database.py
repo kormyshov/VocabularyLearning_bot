@@ -1,6 +1,7 @@
 import os
 import ydb
 import random
+from datetime import date
 from typing import Collection
 
 from card_info import CardInfo
@@ -19,6 +20,7 @@ from abstract_base import (
     CardDoesntExistInDB,
     SetIsEmpty,
     RepetitionDoesntExistInDB,
+    AllTermsRepeated,
 )
 
 
@@ -421,6 +423,9 @@ class Database(AbstractBase):
 
         if len(result[0].rows) == 0:
             raise SetIsEmpty
+
+        if result[0].rows[0].next_repetition > str(date.today()):
+            raise AllTermsRepeated
 
         return result[0].rows[0].id
 

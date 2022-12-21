@@ -124,5 +124,9 @@ class SetIsEmpty(Exception):
     pass
 
 
+class AllTermsRepeated(Exception):
+    pass
+
+
 class RepetitionDoesntExistInDB(Exception):
     pass

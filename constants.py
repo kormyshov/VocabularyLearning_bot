@@ -42,6 +42,7 @@ CARD_HAS_BEEN_DELETED = 'Card has been deleted'
 THERE_IS_NO_CARD = 'There is no card with that term. Enter another term'
 
 SET_IS_EMPTY = 'Set is empty'
+ALL_TERMS_REPEATED = 'All terms have repeated'
 ENTER_TERM_WITH_DEFINITION = 'Enter term with definition'
 RIGHT = 'Right!'
 IT_IS_USED_IN = 'It is used in'
