@@ -298,6 +298,7 @@ class Database(AbstractBase):
 
         return sample_id
 
+    @logger
     def create_card(self, set_id: int, term_id: int, definition_id: int, sample_id: int) -> int:
         card_id = set_id * 1000000 + random.randint(0, 999999)
 
@@ -318,6 +319,7 @@ class Database(AbstractBase):
 
         return card_id
 
+    @logger
     def get_card_info(self, card_id: int) -> CardInfo:
         def select(session):
             return session.transaction().execute(
@@ -352,6 +354,7 @@ class Database(AbstractBase):
             sample=result[0].rows[0].sample.decode('utf-8'),
         )
 
+    @logger
     def get_card_of_set_by_term(self, set_id: int, term: str) -> int:
         def select(session):
             return session.transaction().execute(
@@ -381,6 +384,7 @@ class Database(AbstractBase):
 
         return result[0].rows[0].id
 
+    @logger
     def delete_card_by_id(self, card_id) -> None:
         def upsert(session):
             return session.transaction().execute(
@@ -391,6 +395,7 @@ class Database(AbstractBase):
 
         self.pool.retry_operation_sync(upsert)
 
+    @logger
     def get_card_id_to_repeat(self, user_id: str, set_id: int) -> int:
         def select(session):
             return session.transaction().execute(
