@@ -37,6 +37,7 @@ class Database(AbstractBase):
 
     def __del__(self):
         self.pool.stop()
+        self.driver.stop()
 
     @logger
     def get_user_info(self, user_id: str) -> UserORM:
