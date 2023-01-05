@@ -18,6 +18,6 @@ class RequestToAddDefinitionAction(AbstractAction):
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
-        term_id = user.add_term(text) if user.is_request_to_add_term else user.term_id
+        term_id = user.add_term(text) if user.is_request_to_add_term() else user.term_id
         user.request_to_add_definition(term_id)
         viewer.view(user.id, ENTER_DEFINITION, get_back())
