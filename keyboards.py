@@ -18,6 +18,13 @@ def get_back() -> Tuple[str, ...]:
     )
 
 
+def get_back_or_without_sample() -> Tuple[str, ...]:
+    return (
+        constants.WITHOUT_SAMPLE,
+        constants.BACK,
+    )
+
+
 def get_cancel() -> Tuple[str, ...]:
     return (
         constants.CANCEL,

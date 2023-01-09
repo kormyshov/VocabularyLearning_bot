@@ -36,6 +36,7 @@ LEARN = 'Learn'
 ENTER_NEW_TERM = 'Enter a new term'
 ENTER_DEFINITION = 'Enter a definition'
 ENTER_SAMPLE = 'Enter a sample of using'
+WITHOUT_SAMPLE = 'Without sample'
 
 ENTER_TERM = 'Enter term to delete'
 CARD_HAS_BEEN_DELETED = 'Card has been deleted'
