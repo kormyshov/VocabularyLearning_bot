@@ -157,7 +157,7 @@ class User:
             set_orm = self.database.get_user_set_by_id(self.id, set_id)
             count_of_cards = self.database.get_count_of_cards(set_orm.origin_set_id)
             self.state = UserState.LOOK_SET_INFO
-            self.set_id = set_orm.origin_set_id
+            self.set_id = set_orm.id
             return SetInfo(set_orm.name, count_of_cards, set_orm.id == set_orm.origin_set_id)
         except SetDoesntExistInDB:
             return None
