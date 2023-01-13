@@ -19,8 +19,4 @@ class AddCardAction(AbstractAction):
         sample_id = user.add_sample(text)
         card_id = user.add_card(user.set_id, user.term_id, user.definition_id, sample_id)
         info: CardInfo = user.look_card_info(card_id)
-        viewer.view(
-            user.id,
-            '<b>{}</b>\n\n{}\n\n{}'.format(info.term, info.definition, info.sample),
-            get_look_set_info(),
-        )
+        viewer.view_card(user.id, info, get_look_set_info())

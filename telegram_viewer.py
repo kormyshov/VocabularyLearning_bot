@@ -4,7 +4,7 @@ from telebot.types import (
     ReplyKeyboardMarkup,
     KeyboardButton,
 )
-from abstract_viewer import AbstractViewer, Iterable, Optional
+from abstract_viewer import AbstractViewer, Iterable, Optional, CardInfo
 
 
 bot = telebot.TeleBot(os.environ.get('BOT_TOKEN'))
@@ -25,3 +25,21 @@ class TelegramViewer(AbstractViewer):
         for action in actions:
             keyboard.add(KeyboardButton(action))
         return keyboard
+
+    def view_card(self, player_id: str, card: CardInfo, keyboard: Optional[Iterable[str]] = None) -> None:
+        if card.sample is not None:
+            self.view(
+                player_id,
+                '<b>{}</b>\n\n{}\n\n{}'.format(
+                    card.term,
+                    card.definition,
+                    card.sample.replace('[', '<b>').replace(']', '</b>'),
+                ),
+                keyboard,
+            )
+        else:
+            self.view(
+                player_id,
+                '<b>{}</b>\n\n{}\n'.format(card.term, card.definition),
+                keyboard,
+            )

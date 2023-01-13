@@ -20,6 +20,7 @@ from repetition_orm import RepetitionORM
 from super_memo import Grade, change_sm
 from sm import get_default_sm
 from datetime import date
+from constants import WITHOUT_SAMPLE
 
 
 MAX_SET_COUNT = 5
@@ -224,14 +225,21 @@ class User:
         return self.database.create_card(set_id, term_id, definition_id, sample_id)
 
     @logger
-    def look_card_info(self, card_id: int) -> Optional[CardInfo]:
+    def get_card_info(self, card_id: int) -> Optional[CardInfo]:
         try:
             card_info = self.database.get_card_info(card_id)
-            self.state = UserState.LOOK_CARD_INFO
-            self.card_id = card_id
+            if card_info.sample == WITHOUT_SAMPLE:
+                card_info.sample = None
             return card_info
         except CardDoesntExistInDB:
             return None
+
+    @logger
+    def look_card_info(self, card_id: int) -> Optional[CardInfo]:
+        card_info = self.get_card_info(card_id)
+        self.state = UserState.LOOK_CARD_INFO
+        self.card_id = card_id
+        return card_info
 
     @logger
     def is_look_card_info(self) -> bool:
@@ -269,7 +277,7 @@ class User:
             card_id = self.database.get_card_id_to_repeat(self.id, set_id)
             self.state = UserState.REQUEST_TERM_BY_DEFINITION
             self.card_id = card_id
-            return self.database.get_card_info(card_id).definition
+            return self.get_card_info(card_id).definition
         except SetIsEmpty:
             raise SetIsEmpty
         except AllTermsRepeated:
@@ -281,12 +289,12 @@ class User:
 
     @logger
     def is_term_right(self, term: str) -> bool:
-        card_info = self.database.get_card_info(self.card_id)
+        card_info = self.get_card_info(self.card_id)
         return term.lower().strip() == card_info.term.lower().strip()
 
     @logger
     def get_sample_of_current_card(self) -> str:
-        return self.database.get_card_info(self.card_id).sample
+        return self.get_card_info(self.card_id).sample
 
     @logger
     def request_term_by_sample(self) -> str:
@@ -313,7 +321,7 @@ class User:
 
     @logger
     def get_term_of_current_card(self) -> str:
-        return self.database.get_card_info(self.card_id).term
+        return self.get_card_info(self.card_id).term
 
     @logger
     def request_term_by_mask(self) -> str:

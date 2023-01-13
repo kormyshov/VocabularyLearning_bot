@@ -3,7 +3,7 @@ from logging_decorator import logger
 from controller.abstract_action import AbstractAction
 from abstract_viewer import AbstractViewer
 from user import User
-from constants import CANCEL, IT_IS_USED_IN, RIGHT, WITHOUT_SAMPLE, SECOND_ATTEMPT
+from constants import CANCEL, IT_IS_USED_IN, RIGHT, SECOND_ATTEMPT
 import keyboards
 from controller.request_term_by_definition_action import RequestTermByDefinitionAction
 
@@ -28,13 +28,12 @@ class RequestTermBySampleAction(AbstractAction):
         if user.is_term_right(text):
             user.update_repetition(5)
             viewer.view(user.id, RIGHT)
-            sample = user.get_sample_of_current_card()
-            viewer.view(user.id, IT_IS_USED_IN)
-            viewer.view(user.id, sample.replace('[', '').replace(']', ''))
+            card = user.get_card_info(user.card_id)
+            viewer.view_card(user.id, card)
             RequestTermByDefinitionAction().do(viewer, user, '')
         else:
             sample = user.request_term_by_sample()
-            if sample != WITHOUT_SAMPLE:
+            if sample is not None:
                 viewer.view(user.id, IT_IS_USED_IN)
                 viewer.view(user.id, replace_term_to_stars(sample), keyboards.get_cancel())
             else:

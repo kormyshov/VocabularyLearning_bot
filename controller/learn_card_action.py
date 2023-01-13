@@ -21,7 +21,7 @@ class LearnCardAction(AbstractAction):
             viewer.view(user.id, RIGHT)
         else:
             user.update_repetition(0)
-            term = user.get_term_of_current_card()
+            card = user.get_card_info(user.card_id)
             viewer.view(user.id, IT_WAS)
-            viewer.view(user.id, term, keyboards.get_cancel())
+            viewer.view_card(user.id, card, keyboards.get_cancel())
         RequestTermByDefinitionAction().do(viewer, user, '')
