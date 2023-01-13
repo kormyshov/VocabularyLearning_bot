@@ -1,7 +1,7 @@
-from typing import NamedTuple
+from typing import NamedTuple, Optional
 
 
 class CardInfo(NamedTuple):
     term: str
     definition: str
-    sample: str
+    sample: Optional[str]
