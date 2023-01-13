@@ -229,8 +229,7 @@ class User:
         try:
             card_info = self.database.get_card_info(card_id)
             if card_info.sample == WITHOUT_SAMPLE:
-                pass
-                # card_info.sample = None
+                card_info = CardInfo(card_info.term, card_info.definition, None)
             return card_info
         except CardDoesntExistInDB:
             return None
