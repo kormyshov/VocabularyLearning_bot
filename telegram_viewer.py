@@ -18,7 +18,7 @@ class TelegramViewer(AbstractViewer):
         if keyboard is not None:
             bot.send_message(player_id, message, reply_markup=self.get_keyboard(keyboard), parse_mode='HTML')
         else:
-            bot.send_message(player_id, message)
+            bot.send_message(player_id, message, parse_mode='HTML')
 
     def get_keyboard(self, actions: Iterable[str]) -> ReplyKeyboardMarkup:
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
