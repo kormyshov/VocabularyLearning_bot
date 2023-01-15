@@ -183,7 +183,16 @@ class Database(AbstractBase):
     def get_count_of_cards(self, set_id: int) -> int:
         def select(session):
             return session.transaction().execute(
-                'SELECT COUNT(*) as `count` FROM `cards` WHERE `set_id` == {};'.format(set_id),
+                '''
+                    SELECT COUNT(*) FROM `cards` as `a`
+                    JOIN (
+                        SELECT `origin_set_id` as `set_id` FROM `sets` WHERE `id` == {}
+                    ) as `b`
+                    USING(`set_id`)
+                    ;
+                '''.format(
+                    set_id,
+                ),
                 commit_tx=True,
                 settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
             )
@@ -366,7 +375,11 @@ class Database(AbstractBase):
                         SELECT `id` FROM `terms` WHERE `term` == "{}"
                     ) as `a`
                     LEFT JOIN (
-                        SELECT `id`, `term_id` FROM `cards` WHERE `set_id` = {}
+                        SELECT `id`, `term_id` FROM `cards` as `a`
+                        JOIN (
+                            SELECT `origin_set_id` as `set_id` FROM `sets` WHERE `id` == {}
+                        ) as `b`
+                        USING(`set_id`)
                     ) as `b`
                     ON `a`.`id` == `b`.`term_id`
                     ;
@@ -408,7 +421,11 @@ class Database(AbstractBase):
                             CAST(CAST(`last_repetition` as Date) + DateTime::IntervalFromDays(CAST(`repetition_interval` ?? 0 as Int32)) as String)
                         ) as `next_repetition`,
                     FROM (
-                        SELECT `id` FROM `cards` WHERE `set_id` == {}
+                        SELECT `id` FROM `cards` as `a`
+                        JOIN (
+                            SELECT `origin_set_id` as `set_id` FROM `sets` WHERE `id` == {}
+                        ) as `b`
+                        USING(`set_id`)
                     ) as `a`
                     LEFT JOIN (
                         SELECT `card_id`, `repetition_interval`, `last_repetition` FROM `repeats` WHERE `user_id` == "{}"
