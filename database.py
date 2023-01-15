@@ -185,10 +185,10 @@ class Database(AbstractBase):
             return session.transaction().execute(
                 '''
                     SELECT COUNT(*) FROM `cards` as `a`
-                    JOIN (
-                        SELECT `origin_set_id` as `set_id` FROM `sets` WHERE `id` == {}
+                    INNER JOIN (
+                        SELECT `origin_set_id` FROM `sets` WHERE `id` == {}
                     ) as `b`
-                    USING(`set_id`)
+                    ON `a`.`set_id` == `b`.`origin_set_id`
                     ;
                 '''.format(
                     set_id,
