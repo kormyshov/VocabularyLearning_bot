@@ -184,11 +184,11 @@ class Database(AbstractBase):
         def select(session):
             return session.transaction().execute(
                 '''
-                    SELECT COUNT(*) FROM `cards` as `a`
-                    INNER JOIN (
-                        SELECT `origin_set_id` FROM `sets` WHERE `id` == {}
+                    SELECT COUNT(*) as `count` FROM `cards` as `a`
+                    JOIN (
+                        SELECT `origin_set_id` as `set_id` FROM `sets` WHERE `id` == {}
                     ) as `b`
-                    ON `a`.`set_id` == `b`.`origin_set_id`
+                    USING(`set_id`)
                     ;
                 '''.format(
                     set_id,
@@ -198,13 +198,6 @@ class Database(AbstractBase):
             )
 
         result = self.pool.retry_operation_sync(select)
-
-        print("ok")
-        print(result)
-        print(result[0])
-        print(result[0].rows)
-        print(result[0].rows[0])
-        print(result[0].rows[0].count)
 
         return result[0].rows[0].count
 
