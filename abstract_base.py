@@ -44,6 +44,10 @@ class AbstractBase(ABC):
         pass
 
     @abstractmethod
+    def get_count_of_cards_to_repeat(self, user_id: str, set_id: int) -> int:
+        pass
+
+    @abstractmethod
     def get_term_id(self, term: str) -> int:
         pass
 
