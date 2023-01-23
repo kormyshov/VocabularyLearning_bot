@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Collection
 from set_orm import SetORM
+from set_info import SetStat
 from user_orm import UserORM
 from card_info import CardInfo
 from repetition_orm import RepetitionORM
@@ -45,6 +46,10 @@ class AbstractBase(ABC):
 
     @abstractmethod
     def get_count_of_cards_to_repeat(self, user_id: str, set_id: int) -> int:
+        pass
+
+    @abstractmethod
+    def get_set_stat(self, user_id: str, set_id: int) -> SetStat:
         pass
 
     @abstractmethod

@@ -1,8 +1,13 @@
 from typing import NamedTuple
 
 
+class SetStat(NamedTuple):
+    count: int
+    count_to_repeat: int
+    count_finished: int
+
+
 class SetInfo(NamedTuple):
     name: str
-    count_of_cards: int
     is_mutable: bool
-    count_of_cards_to_repeat: int
+    stat: SetStat

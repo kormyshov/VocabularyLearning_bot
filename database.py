@@ -7,6 +7,7 @@ from typing import Collection
 from card_info import CardInfo
 from logging_decorator import logger
 from set_orm import SetORM
+from set_info import SetStat
 from user_orm import UserORM
 from repetition_orm import RepetitionORM
 from sm import SM
@@ -234,6 +235,44 @@ class Database(AbstractBase):
         result = self.pool.retry_operation_sync(select)
 
         return result[0].rows[0].count
+
+    @logger
+    def get_set_stat(self, user_id: str, set_id: int) -> SetStat:
+        def select(session):
+            return session.transaction().execute(
+                '''
+                    SELECT
+                        COUNT(*) as `count`,
+                        COUNT_IF(
+                            `last_repetition` IS NULL OR 
+                            CAST(`last_repetition` as Date) + DateTime::IntervalFromDays(CAST(`repetition_interval` ?? 0 as Int32)) <= CurrentUtcDate()
+                        ) as `count_to_repeat`,
+                        COUNT_IF(
+                            CAST(`repetition_interval` ?? 0 as Int32) > 100
+                        ) as `count_finished`,
+                    FROM (
+                        SELECT `id` FROM `cards` as `a`
+                        JOIN (
+                            SELECT `origin_set_id` as `set_id` FROM `sets` WHERE `id` == {}
+                        ) as `b`
+                        USING(`set_id`)
+                    ) as `a`
+                    LEFT JOIN (
+                        SELECT `card_id`, `repetition_interval`, `last_repetition` FROM `repeats` WHERE `user_id` == "{}"
+                    ) as `b`
+                    ON `a`.`id` == `b`.`card_id`
+                    ;
+                '''.format(
+                    set_id,
+                    user_id,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+
+        return SetStat(result[0].rows[0].count, result[0].rows[0].count_to_repeat, result[0].rows[0].count_finished)
 
     @logger
     def get_term_id(self, term: str) -> int:

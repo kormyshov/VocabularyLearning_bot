@@ -156,11 +156,10 @@ class User:
     def look_set_info(self, set_id: int) -> Optional[SetInfo]:
         try:
             set_orm = self.database.get_user_set_by_id(self.id, set_id)
-            count_of_cards = self.database.get_count_of_cards(set_orm.origin_set_id)
-            count_of_cards_to_repeat = self.database.get_count_of_cards_to_repeat(self.id, set_id)
+            set_stat = self.database.get_set_stat(self.id, set_id)
             self.state = UserState.LOOK_SET_INFO
             self.set_id = set_orm.id
-            return SetInfo(set_orm.name, count_of_cards, set_orm.id == set_orm.origin_set_id, count_of_cards_to_repeat)
+            return SetInfo(set_orm.name, set_orm.id == set_orm.origin_set_id, set_stat)
         except SetDoesntExistInDB:
             return None
 
