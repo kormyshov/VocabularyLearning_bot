@@ -203,40 +203,6 @@ class Database(AbstractBase):
         return result[0].rows[0].count
 
     @logger
-    def get_count_of_cards_to_repeat(self, user_id: str, set_id: int) -> int:
-        def select(session):
-            return session.transaction().execute(
-                '''
-                    SELECT
-                        COUNT(*) as `count`,
-                    FROM (
-                        SELECT `id` FROM `cards` as `a`
-                        JOIN (
-                            SELECT `origin_set_id` as `set_id` FROM `sets` WHERE `id` == {}
-                        ) as `b`
-                        USING(`set_id`)
-                    ) as `a`
-                    LEFT JOIN (
-                        SELECT `card_id`, `repetition_interval`, `last_repetition` FROM `repeats` WHERE `user_id` == "{}"
-                    ) as `b`
-                    ON `a`.`id` == `b`.`card_id`
-                    WHERE
-                        `last_repetition` IS NULL OR 
-                        CAST(`last_repetition` as Date) + DateTime::IntervalFromDays(CAST(`repetition_interval` ?? 0 as Int32)) <= CurrentUtcDate()
-                    ;
-                '''.format(
-                    set_id,
-                    user_id,
-                ),
-                commit_tx=True,
-                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
-            )
-
-        result = self.pool.retry_operation_sync(select)
-
-        return result[0].rows[0].count
-
-    @logger
     def get_set_stat(self, user_id: str, set_id: int) -> SetStat:
         def select(session):
             return session.transaction().execute(
