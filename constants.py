@@ -32,6 +32,7 @@ THIS_SET_HAS_MAX_CARD_COUNT = 'This set has max card count'
 ADD_CARD = 'Add card'
 DELETE_CARD = 'Delete card'
 LEARN = 'Learn'
+SHOW_ALL_CARDS = 'Show all cards'
 
 ENTER_NEW_TERM = 'Enter a new term'
 ENTER_DEFINITION = 'Enter a definition'

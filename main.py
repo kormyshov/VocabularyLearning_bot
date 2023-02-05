@@ -15,3 +15,8 @@ def message_reply(message):
     db = Database()
     viewer = TelegramViewer()
     Controller(db, viewer).operate(str(message.chat.id), message.text)
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_reply(call):
+    print(call)

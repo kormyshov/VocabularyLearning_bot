@@ -47,6 +47,7 @@ def get_add_set_menu() -> Tuple[str, ...]:
 
 def get_mutable_set_info_menu() -> Tuple[str, ...]:
     return (
+        constants.SHOW_ALL_CARDS,
         constants.ADD_CARD,
         constants.DELETE_CARD,
         constants.LEARN,
@@ -56,6 +57,7 @@ def get_mutable_set_info_menu() -> Tuple[str, ...]:
 
 def get_immutable_set_info_menu() -> Tuple[str, ...]:
     return (
+        constants.SHOW_ALL_CARDS,
         constants.LEARN,
         constants.BACK,
     )

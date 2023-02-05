@@ -26,6 +26,7 @@ from controller.request_term_by_definition_action import RequestTermByDefinition
 from controller.request_term_by_sample_action import RequestTermBySampleAction
 from controller.request_term_by_mask_action import RequestTermByMaskAction
 from controller.learn_card_action import LearnCardAction
+from controller.show_all_cards_action import ShowAllCardsAction
 
 
 class Controller:
@@ -53,6 +54,7 @@ class Controller:
         RequestTermBySampleAction(),
         RequestTermByMaskAction(),
         LearnCardAction(),
+        ShowAllCardsAction(),
     )
 
     def __init__(self, database: AbstractBase, viewer: AbstractViewer):
