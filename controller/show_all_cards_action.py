@@ -17,7 +17,7 @@ class ShowAllCardsAction(AbstractAction):
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
-        viewer.view(user.id, "Test message", ("inline_button", BACK))
+        viewer.view(user.id, "Test message", ("inline_button", BACK), True)
         # info: SetInfo = user.look_set_info(
         #     parse_set_id_from_button_name(text) if validate_set_id_in_button_name(text) else user.set_id
         # )
