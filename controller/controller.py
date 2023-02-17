@@ -4,6 +4,7 @@ from abstract_base import AbstractBase
 from abstract_viewer import AbstractViewer
 from user import User
 from controller.abstract_action import AbstractAction
+from controller.abstract_callback import AbstractCallback
 from controller.look_sets_action import LookSetsAction
 from controller.request_to_look_set_info_action import RequestToLookSetInfoAction
 from controller.request_to_add_set_action import RequestToAddSetAction
@@ -27,6 +28,7 @@ from controller.request_term_by_sample_action import RequestTermBySampleAction
 from controller.request_term_by_mask_action import RequestTermByMaskAction
 from controller.learn_card_action import LearnCardAction
 from controller.show_all_cards_action import ShowAllCardsAction
+from controller.show_next_cards_callback import ShowNextCardsCallback
 
 
 class Controller:
@@ -57,6 +59,10 @@ class Controller:
         ShowAllCardsAction(),
     )
 
+    callbacks: Tuple[AbstractCallback] = (
+        ShowNextCardsCallback(),
+    )
+
     def __init__(self, database: AbstractBase, viewer: AbstractViewer):
         self.database = database
         self.viewer = viewer
@@ -69,6 +75,18 @@ class Controller:
         for action in self.actions:
             if action.check(user, text):
                 action.do(self.viewer, user, text)
+                break
+
+        user.save()
+
+    @logger
+    def callback(self, user_id: str, message_id: int, text: str):
+        user = User(user_id, self.database)
+        user.load()
+
+        for callback in self.callbacks:
+            if callback.check(user, text):
+                callback.do(self.viewer, user, message_id, text)
                 break
 
         user.save()

@@ -47,3 +47,6 @@ class TelegramViewer(AbstractViewer):
                 '<b>{}</b>\n\n{}\n'.format(card.term, card.definition),
                 keyboard,
             )
+
+    def edit(self, player_id: str, message_id: int, message: str) -> None:
+        bot.edit_message_text(message, player_id, message_id)

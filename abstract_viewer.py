@@ -11,3 +11,7 @@ class AbstractViewer(ABC):
     @abstractmethod
     def view_card(self, player_id: str, card: CardInfo, keyboard: Optional[Iterable[str]] = None) -> None:
         pass
+
+    @abstractmethod
+    def edit(self, player_id: str, message_id: int, message: str) -> None:
+        pass
