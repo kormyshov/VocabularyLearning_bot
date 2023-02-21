@@ -19,6 +19,7 @@ class ShowNextCardsCallback(AbstractCallback):
     @logger
     def do(self, viewer: AbstractViewer, user: User, message_id: int, text: str) -> None:
         page: PageOfCards = user.show_all_cards(int(text))
+        navigator = {0, max(0, page.page - 1), page.page, min(page.page + 1, page.max_page - 1), page.max_page - 1}
         viewer.edit(
             user.id,
             message_id,
@@ -27,6 +28,6 @@ class ShowNextCardsCallback(AbstractCallback):
                 page.max_page - 1,
                 '\n'.join(page.terms),
             ),
-            [str(i) for i in range(page.max_page)],
+            map(str, sorted(list(navigator))),
             True,
         )

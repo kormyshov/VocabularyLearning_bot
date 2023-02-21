@@ -62,4 +62,10 @@ class TelegramViewer(AbstractViewer):
         keyboard: Optional[Iterable[str]] = None,
         is_inline: Optional[bool] = False
     ) -> None:
-        bot.edit_message_text(message, player_id, message_id, reply_markup=self.get_keyboard(keyboard, is_inline))
+        bot.edit_message_text(
+            message,
+            player_id,
+            message_id,
+            reply_markup=self.get_keyboard(keyboard, is_inline),
+            parse_mode='HTML',
+        )

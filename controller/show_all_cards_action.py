@@ -18,6 +18,7 @@ class ShowAllCardsAction(AbstractAction):
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
         page: PageOfCards = user.show_all_cards(0)
+        navigator = {0, min(page.page + 1, page.max_page - 1), min(page.page + 2, page.max_page - 1), page.max_page - 1}
         viewer.view(
             user.id,
             '<b>Page {} of {}</b>\n\n{}'.format(
@@ -25,7 +26,7 @@ class ShowAllCardsAction(AbstractAction):
                 page.max_page - 1,
                 '\n'.join(page.terms),
             ),
-            [str(i) for i in range(page.max_page)],
+            map(str, sorted(list(navigator))),
             True,
         )
         # info: SetInfo = user.look_set_info(
