@@ -16,7 +16,13 @@ class TelegramViewer(AbstractViewer):
     def __init__(self):
         pass
 
-    def view(self, player_id: str, message: str, keyboard: Optional[Iterable[str]] = None, is_inline: Optional[bool] = False) -> None:
+    def view(
+        self,
+        player_id: str,
+        message: str,
+        keyboard: Optional[Iterable[str]] = None,
+        is_inline: Optional[bool] = False
+    ) -> None:
         if keyboard is not None:
             bot.send_message(player_id, message, reply_markup=self.get_keyboard(keyboard, is_inline), parse_mode='HTML')
         else:
@@ -48,5 +54,12 @@ class TelegramViewer(AbstractViewer):
                 keyboard,
             )
 
-    def edit(self, player_id: str, message_id: int, message: str) -> None:
-        bot.edit_message_text(message, player_id, message_id)
+    def edit(
+        self,
+        player_id: str,
+        message_id: int,
+        message: str,
+        keyboard: Optional[Iterable[str]] = None,
+        is_inline: Optional[bool] = False
+    ) -> None:
+        bot.edit_message_text(message, player_id, message_id, reply_markup=self.get_keyboard(keyboard, is_inline))

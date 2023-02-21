@@ -3,7 +3,7 @@ from controller.abstract_action import AbstractAction
 from abstract_viewer import AbstractViewer
 from user import User
 from constants import BACK, SHOW_ALL_CARDS
-from set_info import SetInfo
+from set_info import PageOfCards
 from keyboards import get_mutable_set_info_menu, get_immutable_set_info_menu
 from controller.utils import parse_set_id_from_button_name, validate_set_id_in_button_name
 
@@ -17,7 +17,17 @@ class ShowAllCardsAction(AbstractAction):
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
-        viewer.view(user.id, "Test message", ("inline_button", BACK), True)
+        page: PageOfCards = user.show_all_cards(0)
+        viewer.view(
+            user.id,
+            '<b>Page {} of {}</b>\n\n{}'.format(
+                page.page,
+                page.max_page - 1,
+                '\n'.join(page.terms),
+            ),
+            [str(i) for i in range(page.max_page)],
+            True,
+        )
         # info: SetInfo = user.look_set_info(
         #     parse_set_id_from_button_name(text) if validate_set_id_in_button_name(text) else user.set_id
         # )

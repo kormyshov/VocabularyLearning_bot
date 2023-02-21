@@ -2,7 +2,7 @@ import os
 import ydb
 import random
 from datetime import date
-from typing import Collection
+from typing import Collection, Iterable
 
 from card_info import CardInfo
 from logging_decorator import logger
@@ -402,6 +402,38 @@ class Database(AbstractBase):
             definition=result[0].rows[0].definition.decode('utf-8'),
             sample=result[0].rows[0].sample.decode('utf-8'),
         )
+
+    @logger
+    def get_terms_of_set(self, set_id: int, limit: int, offset: int) -> Iterable[str]:
+        def select(session):
+            return session.transaction().execute(
+                '''
+                    SELECT
+                        `term`
+                    FROM (
+                        SELECT `term_id` FROM `cards` as `a`
+                        JOIN (
+                            SELECT `origin_set_id` as `set_id` FROM `sets` WHERE `id` == {}
+                        ) as `b`
+                        USING(`set_id`)
+                    ) as `a`
+                    LEFT JOIN `terms` as `b`
+                    ON `a`.`term_id` == `b`.`id`
+                    ORDER BY `term`
+                    LIMIT {} OFFSET {}
+                    ;
+                '''.format(
+                    set_id,
+                    limit,
+                    offset,
+                ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        result = self.pool.retry_operation_sync(select)
+
+        return map(lambda row: row.term.decode('utf-8'), result[0].rows)
 
     @logger
     def get_card_of_set_by_term(self, set_id: int, term: str) -> int:

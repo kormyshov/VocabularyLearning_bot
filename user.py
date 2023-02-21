@@ -14,7 +14,7 @@ from abstract_base import (
 )
 from user_orm import UserState, UserORM
 from set_orm import SetORM
-from set_info import SetInfo
+from set_info import SetInfo, PageOfCards
 from card_info import CardInfo
 from repetition_orm import RepetitionORM
 from super_memo import Grade, change_sm
@@ -25,6 +25,7 @@ from constants import WITHOUT_SAMPLE
 
 MAX_SET_COUNT = 5
 MAX_CARD_COUNT = 1000
+TERMS_ON_PAGE = 50
 
 
 class User:
@@ -331,3 +332,14 @@ class User:
     @logger
     def is_request_term_by_mask(self) -> bool:
         return self.state == UserState.REQUEST_TERM_BY_MASK
+
+    @logger
+    def show_all_cards(self, page: int) -> PageOfCards:
+        count_of_cards = self.database.get_count_of_cards(self.set_id)
+        max_page = (count_of_cards + TERMS_ON_PAGE - 1) // TERMS_ON_PAGE
+        terms = self.database.get_terms_of_set(self.set_id, TERMS_ON_PAGE, page * TERMS_ON_PAGE)
+        return PageOfCards(
+            terms=terms,
+            page=page,
+            max_page=max_page,
+        )

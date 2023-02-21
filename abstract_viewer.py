@@ -5,7 +5,13 @@ from card_info import CardInfo
 
 class AbstractViewer(ABC):
     @abstractmethod
-    def view(self, player_id: str, message: str, keyboard: Optional[Iterable[str]] = None, is_inline: Optional[bool] = False) -> None:
+    def view(
+        self,
+        player_id: str,
+        message: str,
+        keyboard: Optional[Iterable[str]] = None,
+        is_inline: Optional[bool] = False
+    ) -> None:
         pass
 
     @abstractmethod
@@ -13,5 +19,12 @@ class AbstractViewer(ABC):
         pass
 
     @abstractmethod
-    def edit(self, player_id: str, message_id: int, message: str) -> None:
+    def edit(
+        self,
+        player_id: str,
+        message_id: int,
+        message: str,
+        keyboard: Optional[Iterable[str]] = None,
+        is_inline: Optional[bool] = False
+    ) -> None:
         pass

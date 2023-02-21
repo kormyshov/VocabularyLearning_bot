@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Collection
+from typing import Collection, Iterable
 from set_orm import SetORM
 from set_info import SetStat
 from user_orm import UserORM
@@ -78,6 +78,10 @@ class AbstractBase(ABC):
 
     @abstractmethod
     def get_card_info(self, card_id: int) -> CardInfo:
+        pass
+
+    @abstractmethod
+    def get_terms_of_set(self, set_id: int, limit: int, offset: int) -> Iterable[str]:
         pass
 
     @abstractmethod
