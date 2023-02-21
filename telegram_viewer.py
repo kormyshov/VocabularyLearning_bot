@@ -30,10 +30,14 @@ class TelegramViewer(AbstractViewer):
 
     def get_keyboard(self, actions: Iterable[str], is_inline: bool) -> ReplyKeyboardMarkup:
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True) if not is_inline else InlineKeyboardMarkup()
-        for action in actions:
-            keyboard.add(
-                KeyboardButton(action) if not is_inline else InlineKeyboardButton(action, callback_data=action)
-            )
+        keyboard.add([
+            KeyboardButton(action) if not is_inline else InlineKeyboardButton(action, callback_data=action)
+            for action in actions
+        ])
+        # for action in actions:
+        #     keyboard.add(
+        #         KeyboardButton(action) if not is_inline else InlineKeyboardButton(action, callback_data=action)
+        #     )
         return keyboard
 
     def view_card(self, player_id: str, card: CardInfo, keyboard: Optional[Iterable[str]] = None) -> None:
