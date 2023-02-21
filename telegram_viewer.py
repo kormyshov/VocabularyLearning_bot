@@ -30,7 +30,7 @@ class TelegramViewer(AbstractViewer):
 
     def get_keyboard(self, actions: Iterable[str], is_inline: bool) -> ReplyKeyboardMarkup:
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True) if not is_inline else InlineKeyboardMarkup()
-        keyboard.add([
+        keyboard.add(*[
             KeyboardButton(action) if not is_inline else InlineKeyboardButton(action, callback_data=action)
             for action in actions
         ])
