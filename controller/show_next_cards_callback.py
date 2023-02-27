@@ -2,11 +2,7 @@ from logging_decorator import logger
 from controller.abstract_callback import AbstractCallback
 from abstract_viewer import AbstractViewer
 from user import User
-from random import randint
-from constants import BACK, SHOW_ALL_CARDS
 from set_info import PageOfCards
-from keyboards import get_mutable_set_info_menu, get_immutable_set_info_menu
-from controller.utils import parse_set_id_from_button_name, validate_set_id_in_button_name
 
 
 class ShowNextCardsCallback(AbstractCallback):
