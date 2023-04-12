@@ -1,4 +1,4 @@
 pytest
 pyTelegramBotAPI
 six
-ydb
+ydb==2.5.0
