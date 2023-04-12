@@ -29,6 +29,8 @@ class RequestTermByMaskAction(AbstractAction):
         if user.is_term_right(text):
             user.update_repetition(3)
             viewer.view(user.id, RIGHT)
+            card = user.get_card_info(user.card_id)
+            viewer.view_card(user.id, card)
             RequestTermByDefinitionAction().do(viewer, user, '')
         else:
             term = user.request_term_by_mask()

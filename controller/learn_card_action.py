@@ -16,12 +16,12 @@ class LearnCardAction(AbstractAction):
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
+        card = user.get_card_info(user.card_id)
         if user.is_term_right(text):
             user.update_repetition(2)
             viewer.view(user.id, RIGHT)
         else:
             user.update_repetition(0)
-            card = user.get_card_info(user.card_id)
             viewer.view(user.id, IT_WAS)
-            viewer.view_card(user.id, card, keyboards.get_cancel())
+        viewer.view_card(user.id, card, keyboards.get_cancel())
         RequestTermByDefinitionAction().do(viewer, user, '')
