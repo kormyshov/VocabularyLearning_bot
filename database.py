@@ -27,6 +27,7 @@ from abstract_base import (
 
 class Database(AbstractBase):
 
+    @logger
     def __init__(self):
         self.driver = ydb.Driver(
             endpoint=os.getenv('YDB_ENDPOINT'),
