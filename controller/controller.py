@@ -69,7 +69,6 @@ class Controller:
 
     @logger
     def operate(self, user_id: str, text: str):
-        print('8')
         user = User(user_id, self.database)
         user.load()
 
@@ -79,7 +78,6 @@ class Controller:
                 break
 
         user.save()
-        print('9')
 
     @logger
     def callback(self, user_id: str, message_id: int, text: str):

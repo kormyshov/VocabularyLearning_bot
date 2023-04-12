@@ -12,9 +12,13 @@ def start_message(message):
 
 @bot.message_handler(content_types='text')
 def message_reply(message):
+    print('8')
     db = Database()
+    print('9')
     viewer = TelegramViewer()
+    print('10')
     Controller(db, viewer).operate(str(message.chat.id), message.text)
+    print('11')
 
 
 @bot.callback_query_handler(func=lambda call: True)
