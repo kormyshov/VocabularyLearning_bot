@@ -2,10 +2,15 @@
 
 ONBOARDING = 'This bot will help you to learn foreign languages.\n\nYou can create sets with cards and learn it with spaced repetitions.\n\nVisit channel @vocabularylearning_channel for more inforation.'
 
+CHANGE_LANGUAGE = 'Change language'
 LOOK_SET_INFO = 'Look at set info'
 ADD_SET = 'Add set'
 DELETE_SET = 'Delete set'
 LEARN_SET = 'Learn set'
+
+CHOOSE_LANGUAGE = 'Choose language'
+ENGLISH_LANGUAGE = 'English'
+RUSSIAN_LANGUAGE = 'Русский'
 
 YOU_DONT_HAVE_SET = 'You don\'t have any set'
 SELECT_SET = 'Select set'

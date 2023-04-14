@@ -28,11 +28,14 @@ from controller.request_term_by_mask_action import RequestTermByMaskAction
 from controller.learn_card_action import LearnCardAction
 from controller.show_all_cards_action import ShowAllCardsAction
 from controller.show_next_cards_callback import ShowNextCardsCallback
+from controller.request_to_change_language_action import RequestToChangeLanguageAction
+from controller.change_language_action import ChangeLanguageAction
 
 
 class Controller:
 
     actions: Tuple[AbstractAction] = (
+        RequestToChangeLanguageAction(),
         RequestToLookSetInfoAction(),
         RequestToAddSetAction(),
         RequestToDeleteSetAction(),
@@ -55,6 +58,7 @@ class Controller:
         RequestTermByMaskAction(),
         LearnCardAction(),
         ShowAllCardsAction(),
+        ChangeLanguageAction(),
     )
 
     callbacks: Tuple[AbstractCallback] = (

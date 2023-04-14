@@ -79,6 +79,18 @@ class User:
         return self.database.get_user_sets(self.id)
 
     @logger
+    def request_to_change_language(self) -> None:
+        self.state = UserState.REQUEST_TO_CHANGE_LANGUAGE
+
+    @logger
+    def is_request_to_change_language(self) -> bool:
+        return self.state == UserState.REQUEST_TO_CHANGE_LANGUAGE
+
+    @logger
+    def change_language(self) -> bool:
+        pass
+
+    @logger
     def request_to_look_set_info(self) -> Iterable[str]:
         self.state = UserState.REQUEST_TO_LOOK_SET_INFO
         return map(lambda e: '{}: {}'.format(e.id, e.name), self.get_sets())

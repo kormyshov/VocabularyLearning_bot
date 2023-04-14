@@ -30,6 +30,13 @@ def get_cancel() -> Tuple[str, ...]:
     )
 
 
+def get_ui_languages() -> Tuple[str, ...]:
+    return (
+        constants.ENGLISH_LANGUAGE,
+        constants.RUSSIAN_LANGUAGE,
+    )
+
+
 def get_sets(sets_names: Iterable[str]) -> List[str]:
     keyboard = [set_name for set_name in sets_names]
     keyboard.append(constants.BACK)
