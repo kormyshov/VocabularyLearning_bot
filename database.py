@@ -141,7 +141,7 @@ class Database(AbstractBase):
     def set_user_language(self, user_id: str, language: str) -> None:
         def upsert(session):
             return session.transaction().execute(
-                'UPSERT INTO `users` (`user_id`, `language`) VALUES ("{}", "{}");'.format(
+                'UPSERT INTO `users` (`id`, `language`) VALUES ("{}", "{}");'.format(
                     user_id,
                     language,
                     ),
