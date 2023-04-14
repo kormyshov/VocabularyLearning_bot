@@ -5,7 +5,6 @@ from abstract_viewer import AbstractViewer
 from user import User
 from controller.abstract_action import AbstractAction
 from controller.abstract_callback import AbstractCallback
-from controller.look_sets_action import LookSetsAction
 from controller.request_to_look_set_info_action import RequestToLookSetInfoAction
 from controller.request_to_add_set_action import RequestToAddSetAction
 from controller.request_to_delete_set_action import RequestToDeleteSetAction
@@ -34,7 +33,6 @@ from controller.show_next_cards_callback import ShowNextCardsCallback
 class Controller:
 
     actions: Tuple[AbstractAction] = (
-        LookSetsAction(),
         RequestToLookSetInfoAction(),
         RequestToAddSetAction(),
         RequestToDeleteSetAction(),
