@@ -29,6 +29,10 @@ class AbstractBase(ABC):
         pass
 
     @abstractmethod
+    def set_user_language(self, user_id: str, language: str) -> None:
+        pass
+
+    @abstractmethod
     def copy_set(self, user_id: str, set_name: str, set_id: int) -> None:
         pass
 

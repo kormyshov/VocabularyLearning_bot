@@ -20,7 +20,7 @@ from repetition_orm import RepetitionORM
 from super_memo import Grade, change_sm
 from sm import get_default_sm
 from datetime import date
-from constants import WITHOUT_SAMPLE
+from constants import WITHOUT_SAMPLE, ENGLISH_LANGUAGE, RUSSIAN_LANGUAGE
 
 
 MAX_SET_COUNT = 5
@@ -87,8 +87,12 @@ class User:
         return self.state == UserState.REQUEST_TO_CHANGE_LANGUAGE
 
     @logger
-    def change_language(self) -> bool:
-        pass
+    def change_language(self, language_name: str) -> None:
+        map_name_to_abbr = {
+            ENGLISH_LANGUAGE: 'en',
+            RUSSIAN_LANGUAGE: 'ru',
+        }
+        self.database.set_user_language(self.id, map_name_to_abbr[language_name])
 
     @logger
     def request_to_look_set_info(self) -> Iterable[str]:

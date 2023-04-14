@@ -138,6 +138,20 @@ class Database(AbstractBase):
         )
 
     @logger
+    def set_user_language(self, user_id: str, language: str) -> None:
+        def upsert(session):
+            return session.transaction().execute(
+                'UPSERT INTO `users` (`user_id`, `language`) VALUES ("{}", "{}");'.format(
+                    user_id,
+                    language,
+                    ),
+                commit_tx=True,
+                settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+            )
+
+        self.pool.retry_operation_sync(upsert)
+
+    @logger
     def copy_set(self, user_id: str, set_name: str, set_id: int) -> None:
         def upsert(session):
             return session.transaction().execute(

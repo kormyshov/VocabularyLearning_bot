@@ -14,5 +14,5 @@ class ChangeLanguageAction(AbstractAction):
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
-        user.change_language()
+        user.change_language(text)
         GoToMainMenuAction().do(viewer, user, text)
