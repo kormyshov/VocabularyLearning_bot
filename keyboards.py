@@ -4,6 +4,7 @@ import constants
 
 def get_main_menu() -> Tuple[str, ...]:
     return (
+        constants.CHANGE_LANGUAGE,
         constants.LOOK_SET_INFO,
         constants.LEARN_SET,
         constants.ADD_SET,
