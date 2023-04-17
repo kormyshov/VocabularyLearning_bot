@@ -20,7 +20,7 @@ class ShowAllCardsAction(AbstractAction):
         viewer.view(
             user.id,
             '<b>{}</b>\n\n{}'.format(
-                PAGE_A_OF_B.format(page.page, page.max_page - 1),
+                PAGE_A_OF_B['en'].format(page.page, page.max_page - 1),
                 '\n'.join(page.terms),
             ),
             map(str, sorted(list(navigator))),

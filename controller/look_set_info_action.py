@@ -33,7 +33,7 @@ class LookSetInfoAction(AbstractAction):
                 user.id,
                 '<b>{}</b>\n\n{}'.format(
                     info.name,
-                    SET_STAT.format(info.stat.count, info.stat.count_to_repeat, info.stat.count_finished),
+                    SET_STAT['en'].format(info.stat.count, info.stat.count_to_repeat, info.stat.count_finished),
                 ),
                 get_mutable_set_info_menu() if info.is_mutable else get_immutable_set_info_menu()
             )
