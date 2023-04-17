@@ -89,8 +89,8 @@ class User:
     @logger
     def change_language(self, language_name: str) -> None:
         map_name_to_abbr = {
-            ENGLISH_LANGUAGE: 'en',
-            RUSSIAN_LANGUAGE: 'ru',
+            ENGLISH_LANGUAGE['en']: 'en',
+            RUSSIAN_LANGUAGE['en']: 'ru',
         }
         self.database.set_user_language(self.id, map_name_to_abbr[language_name])
 
@@ -245,7 +245,7 @@ class User:
     def get_card_info(self, card_id: int) -> Optional[CardInfo]:
         try:
             card_info = self.database.get_card_info(card_id)
-            if card_info.sample == WITHOUT_SAMPLE:
+            if card_info.sample == WITHOUT_SAMPLE['en']:
                 card_info = CardInfo(card_info.term, card_info.definition, None)
             return card_info
         except CardDoesntExistInDB:

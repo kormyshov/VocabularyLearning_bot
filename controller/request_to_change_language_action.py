@@ -12,10 +12,10 @@ class RequestToChangeLanguageAction(AbstractAction):
 
     def check(self, user: User, text: str) -> bool:
         return (
-            user.is_main_menu() and text == CHANGE_LANGUAGE
+            user.is_main_menu() and text == CHANGE_LANGUAGE['en']
         )
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
         user.request_to_change_language()
-        viewer.view(user.id, CHOOSE_LANGUAGE, keyboards.get_ui_languages())
+        viewer.view(user.id, CHOOSE_LANGUAGE['en'], keyboards.get_ui_languages())

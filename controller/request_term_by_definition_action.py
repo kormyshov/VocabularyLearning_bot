@@ -14,8 +14,8 @@ class RequestTermByDefinitionAction(AbstractAction):
 
     def check(self, user: User, text: str) -> bool:
         return (
-            (user.is_look_set_info() and text == LEARN) or
-            (user.is_request_to_learn_set() and text != BACK)
+            (user.is_look_set_info() and text == LEARN['en']) or
+            (user.is_request_to_learn_set() and text != BACK['en'])
         )
 
     @logger
@@ -24,9 +24,9 @@ class RequestTermByDefinitionAction(AbstractAction):
             definition = user.request_term_by_definition(
                 parse_set_id_from_button_name(text) if validate_set_id_in_button_name(text) else user.set_id
             )
-            viewer.view(user.id, ENTER_TERM_WITH_DEFINITION)
+            viewer.view(user.id, ENTER_TERM_WITH_DEFINITION['en'])
             viewer.view(user.id, definition, keyboards.get_cancel())
         except SetIsEmpty:
-            viewer.view(user.id, SET_IS_EMPTY)
+            viewer.view(user.id, SET_IS_EMPTY['en'])
         except AllTermsRepeated:
-            viewer.view(user.id, ALL_TERMS_REPEATED)
+            viewer.view(user.id, ALL_TERMS_REPEATED['en'])

@@ -1,76 +1,93 @@
 from typing import Tuple, Iterable, List
-import constants
+from constants import (
+    CHANGE_LANGUAGE,
+    LOOK_SET_INFO,
+    LEARN_SET,
+    ADD_SET,
+    DELETE_SET,
+    BACK,
+    WITHOUT_SAMPLE,
+    CANCEL,
+    ENGLISH_LANGUAGE,
+    RUSSIAN_LANGUAGE,
+    NEW_SET,
+    EXIST_SET,
+    SHOW_ALL_CARDS,
+    ADD_CARD,
+    DELETE_CARD,
+    LEARN,
+)
 
 
 def get_main_menu() -> Tuple[str, ...]:
     return (
-        constants.CHANGE_LANGUAGE,
-        constants.LOOK_SET_INFO,
-        constants.LEARN_SET,
-        constants.ADD_SET,
-        constants.DELETE_SET,
+        CHANGE_LANGUAGE['en'],
+        LOOK_SET_INFO['en'],
+        LEARN_SET['en'],
+        ADD_SET['en'],
+        DELETE_SET['en'],
     )
 
 
 def get_back() -> Tuple[str, ...]:
     return (
-        constants.BACK,
+        BACK['en'],
     )
 
 
 def get_back_or_without_sample() -> Tuple[str, ...]:
     return (
-        constants.WITHOUT_SAMPLE,
-        constants.BACK,
+        WITHOUT_SAMPLE['en'],
+        BACK['en'],
     )
 
 
 def get_cancel() -> Tuple[str, ...]:
     return (
-        constants.CANCEL,
+        CANCEL['en'],
     )
 
 
 def get_ui_languages() -> Tuple[str, ...]:
     return (
-        constants.ENGLISH_LANGUAGE,
-        constants.RUSSIAN_LANGUAGE,
+        ENGLISH_LANGUAGE['en'],
+        RUSSIAN_LANGUAGE['en'],
     )
 
 
 def get_sets(sets_names: Iterable[str]) -> List[str]:
     keyboard = [set_name for set_name in sets_names]
-    keyboard.append(constants.BACK)
+    keyboard.append(BACK['en'])
     return keyboard
 
 
 def get_add_set_menu() -> Tuple[str, ...]:
     return (
-        constants.NEW_SET,
-        constants.EXIST_SET,
-        constants.BACK,
+        NEW_SET['en'],
+        EXIST_SET['en'],
+        BACK['en'],
     )
 
 
 def get_mutable_set_info_menu() -> Tuple[str, ...]:
     return (
-        constants.SHOW_ALL_CARDS,
-        constants.ADD_CARD,
-        constants.DELETE_CARD,
-        constants.LEARN,
-        constants.BACK,
+        SHOW_ALL_CARDS['en'],
+        ADD_CARD['en'],
+        DELETE_CARD['en'],
+        LEARN['en'],
+        BACK['en'],
     )
 
 
 def get_immutable_set_info_menu() -> Tuple[str, ...]:
     return (
-        constants.SHOW_ALL_CARDS,
-        constants.LEARN,
-        constants.BACK,
+        SHOW_ALL_CARDS['en'],
+        LEARN['en'],
+        BACK['en'],
     )
 
 
 def get_look_set_info() -> Tuple[str, ...]:
     return (
-        constants.LOOK_SET_INFO,
+        LOOK_SET_INFO['en'],
     )

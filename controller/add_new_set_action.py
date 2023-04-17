@@ -11,10 +11,10 @@ class AddNewSetAction(AbstractAction):
         pass
 
     def check(self, user: User, text: str) -> bool:
-        return user.is_request_to_add_new_set() and text != BACK
+        return user.is_request_to_add_new_set() and text != BACK['en']
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
         user.add_new_set(text)
-        viewer.view(user.id, SET_HAS_BEEN_CREATED)
+        viewer.view(user.id, SET_HAS_BEEN_CREATED['en'])
         GoToMainMenuAction().do(viewer, user, text)

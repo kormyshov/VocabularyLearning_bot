@@ -3,6 +3,7 @@ from controller.abstract_callback import AbstractCallback
 from abstract_viewer import AbstractViewer
 from user import User
 from set_info import PageOfCards
+from constants import PAGE_A_OF_B
 
 
 class ShowNextCardsCallback(AbstractCallback):
@@ -19,9 +20,8 @@ class ShowNextCardsCallback(AbstractCallback):
         viewer.edit(
             user.id,
             message_id,
-            '<b>Page {} of {}</b>\n\n{}'.format(
-                page.page,
-                page.max_page - 1,
+            '<b>{}</b>\n\n{}'.format(
+                PAGE_A_OF_B.format(page.page, page.max_page - 1),
                 '\n'.join(page.terms),
             ),
             map(str, sorted(list(navigator))),
