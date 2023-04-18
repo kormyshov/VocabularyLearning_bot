@@ -98,6 +98,7 @@ class User:
             RUSSIAN_LANGUAGE['ru']: 'ru',
         }
         self.database.set_user_language(self.id, map_name_to_abbr[language_name])
+        self.language = map_name_to_abbr[language_name]
 
     @logger
     def request_to_look_set_info(self) -> Iterable[str]:
