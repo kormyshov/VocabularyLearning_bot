@@ -63,7 +63,7 @@ class Database(AbstractBase):
             definition_id=result[0].rows[0].definition_id,
             sample_id=result[0].rows[0].sample_id,
             card_id=result[0].rows[0].card_id,
-            language=result[0].rows[0].language,
+            language=result[0].rows[0].language.decode('utf-8'),
         )
 
     @logger
@@ -146,7 +146,7 @@ class Database(AbstractBase):
                 'UPSERT INTO `users` (`id`, `language`) VALUES ("{}", "{}");'.format(
                     user_id,
                     language,
-                    ),
+                ),
                 commit_tx=True,
                 settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
             )
