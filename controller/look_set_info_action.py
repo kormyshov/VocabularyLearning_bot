@@ -14,13 +14,13 @@ class LookSetInfoAction(AbstractAction):
 
     def check(self, user: User, text: str) -> bool:
         return (
-            (user.is_request_to_look_set_info() and text != BACK['en']) or
-            (user.is_request_to_add_term() and text == BACK['en']) or
-            (user.is_look_card_info() and text == LOOK_SET_INFO['en']) or
-            (user.is_request_to_delete_card() and text == BACK['en']) or
-            (user.is_request_term_by_definition() and text == CANCEL['en']) or
-            (user.is_request_term_by_sample() and text == CANCEL['en']) or
-            (user.is_request_term_by_mask() and text == CANCEL['en'])
+            (user.is_request_to_look_set_info() and text != BACK[user.language]) or
+            (user.is_request_to_add_term() and text == BACK[user.language]) or
+            (user.is_look_card_info() and text == LOOK_SET_INFO[user.language]) or
+            (user.is_request_to_delete_card() and text == BACK[user.language]) or
+            (user.is_request_term_by_definition() and text == CANCEL[user.language]) or
+            (user.is_request_term_by_sample() and text == CANCEL[user.language]) or
+            (user.is_request_term_by_mask() and text == CANCEL[user.language])
         )
 
     @logger
@@ -33,9 +33,9 @@ class LookSetInfoAction(AbstractAction):
                 user.id,
                 '<b>{}</b>\n\n{}'.format(
                     info.name,
-                    SET_STAT['en'].format(info.stat.count, info.stat.count_to_repeat, info.stat.count_finished),
+                    SET_STAT[user.language].format(info.stat.count, info.stat.count_to_repeat, info.stat.count_finished),
                 ),
-                get_mutable_set_info_menu() if info.is_mutable else get_immutable_set_info_menu()
+                get_mutable_set_info_menu(user.language) if info.is_mutable else get_immutable_set_info_menu(user.language)
             )
         else:
-            viewer.view(user.id, THERE_IS_NO_SET['en'])
+            viewer.view(user.id, THERE_IS_NO_SET[user.language])

@@ -22,17 +22,17 @@ class RequestTermByMaskAction(AbstractAction):
         pass
 
     def check(self, user: User, text: str) -> bool:
-        return user.is_request_term_by_sample() and text != CANCEL['en']
+        return user.is_request_term_by_sample() and text != CANCEL[user.language]
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
         if user.is_term_right(text):
             user.update_repetition(3)
-            viewer.view(user.id, RIGHT['en'])
+            viewer.view(user.id, RIGHT[user.language])
             card = user.get_card_info(user.card_id)
             viewer.view_card(user.id, card)
             RequestTermByDefinitionAction().do(viewer, user, '')
         else:
             term = user.request_term_by_mask()
-            viewer.view(user.id, ENTER_TERM_WITH_MASK['en'])
-            viewer.view(user.id, replace_term_to_mask(term), keyboards.get_cancel())
+            viewer.view(user.id, ENTER_TERM_WITH_MASK[user.language])
+            viewer.view(user.id, replace_term_to_mask(term), keyboards.get_cancel(user.language))

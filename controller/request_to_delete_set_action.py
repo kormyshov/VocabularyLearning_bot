@@ -11,14 +11,14 @@ class RequestToDeleteSetAction(AbstractAction):
         pass
 
     def check(self, user: User, text: str) -> bool:
-        return user.is_main_menu() and text == DELETE_SET['en']
+        return user.is_main_menu() and text == DELETE_SET[user.language]
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
         user_set_names = user.request_to_delete_set()
-        keyboard = keyboards.get_sets(user_set_names)
+        keyboard = keyboards.get_sets(user_set_names, user.language)
         if len(keyboard) == 1:
             user.go_to_main_menu()
-            viewer.view(user.id, YOU_DONT_HAVE_SET['en'], keyboards.get_main_menu())
+            viewer.view(user.id, YOU_DONT_HAVE_SET[user.language], keyboards.get_main_menu(user.language))
         else:
-            viewer.view(user.id, SELECT_SET['en'], keyboard)
+            viewer.view(user.id, SELECT_SET[user.language], keyboard)

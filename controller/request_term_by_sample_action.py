@@ -21,20 +21,20 @@ class RequestTermBySampleAction(AbstractAction):
         pass
 
     def check(self, user: User, text: str) -> bool:
-        return user.is_request_term_by_definition() and text != CANCEL['en']
+        return user.is_request_term_by_definition() and text != CANCEL[user.language]
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
         if user.is_term_right(text):
             user.update_repetition(5)
-            viewer.view(user.id, RIGHT['en'])
+            viewer.view(user.id, RIGHT[user.language])
             card = user.get_card_info(user.card_id)
             viewer.view_card(user.id, card)
             RequestTermByDefinitionAction().do(viewer, user, '')
         else:
             sample = user.request_term_by_sample()
             if sample is not None:
-                viewer.view(user.id, IT_IS_USED_IN['en'])
-                viewer.view(user.id, replace_term_to_stars(sample), keyboards.get_cancel())
+                viewer.view(user.id, IT_IS_USED_IN[user.language])
+                viewer.view(user.id, replace_term_to_stars(sample), keyboards.get_cancel(user.language))
             else:
-                viewer.view(user.id, SECOND_ATTEMPT['en'], keyboards.get_cancel())
+                viewer.view(user.id, SECOND_ATTEMPT[user.language], keyboards.get_cancel(user.language))

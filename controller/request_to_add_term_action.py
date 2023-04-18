@@ -12,13 +12,13 @@ class RequestToAddTermAction(AbstractAction):
 
     def check(self, user: User, text: str) -> bool:
         return (
-            (user.is_look_set_info() and text == ADD_CARD['en']) or
-            (user.is_request_to_add_definition() and text == BACK['en'])
+            (user.is_look_set_info() and text == ADD_CARD[user.language]) or
+            (user.is_request_to_add_definition() and text == BACK[user.language])
         )
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
         if user.request_to_add_term():
-            viewer.view(user.id, ENTER_NEW_TERM['en'], keyboards.get_back())
+            viewer.view(user.id, ENTER_NEW_TERM[user.language], keyboards.get_back(user.language))
         else:
-            viewer.view(user.id, THIS_SET_HAS_MAX_CARD_COUNT['en'])
+            viewer.view(user.id, THIS_SET_HAS_MAX_CARD_COUNT[user.language])

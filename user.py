@@ -94,6 +94,8 @@ class User:
         map_name_to_abbr = {
             ENGLISH_LANGUAGE['en']: 'en',
             RUSSIAN_LANGUAGE['en']: 'ru',
+            ENGLISH_LANGUAGE['ru']: 'en',
+            RUSSIAN_LANGUAGE['ru']: 'ru',
         }
         self.database.set_user_language(self.id, map_name_to_abbr[language_name])
 

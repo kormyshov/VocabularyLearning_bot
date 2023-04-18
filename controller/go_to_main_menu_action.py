@@ -12,13 +12,13 @@ class GoToMainMenuAction(AbstractAction):
 
     def check(self, user: User, text: str) -> bool:
         return (
-            (user.is_request_to_add_set() and text == BACK['en']) or
-            (user.is_request_to_look_set_info() and text == BACK['en']) or
-            (user.is_request_to_delete_set() and text == BACK['en']) or
-            (user.is_request_to_learn_set() and text == BACK['en'])
+            (user.is_request_to_add_set() and text == BACK[user.language]) or
+            (user.is_request_to_look_set_info() and text == BACK[user.language]) or
+            (user.is_request_to_delete_set() and text == BACK[user.language]) or
+            (user.is_request_to_learn_set() and text == BACK[user.language])
         )
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
         user.go_to_main_menu()
-        viewer.view(user.id, MENU['en'], keyboards.get_main_menu())
+        viewer.view(user.id, MENU[user.language], keyboards.get_main_menu(user.language))

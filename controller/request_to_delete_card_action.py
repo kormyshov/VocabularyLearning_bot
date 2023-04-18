@@ -11,9 +11,9 @@ class RequestToDeleteCardAction(AbstractAction):
         pass
 
     def check(self, user: User, text: str) -> bool:
-        return user.is_look_set_info() and text == DELETE_CARD['en']
+        return user.is_look_set_info() and text == DELETE_CARD[user.language]
 
     @logger
     def do(self, viewer: AbstractViewer, user: User, text: str) -> None:
         user.request_to_delete_card()
-        viewer.view(user.id, ENTER_TERM['en'], keyboards.get_back())
+        viewer.view(user.id, ENTER_TERM[user.language], keyboards.get_back(user.language))
