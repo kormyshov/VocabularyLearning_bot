@@ -7,7 +7,7 @@ from telegram_viewer import TelegramViewer, bot
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    TelegramViewer().view(message.chat.id, ONBOARDING, get_main_menu())
+    TelegramViewer().view(message.chat.id, ONBOARDING['en'], get_main_menu())
 
 
 @bot.message_handler(content_types='text')
