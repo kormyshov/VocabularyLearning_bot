@@ -136,7 +136,7 @@ ENTER_SAMPLE = {
 }
 WITHOUT_SAMPLE = {
     'en': 'Without sample',
-    'ru': 'Без примера',
+    'ru': 'Without sample',
 }
 
 ENTER_TERM = {

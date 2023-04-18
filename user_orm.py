@@ -30,3 +30,4 @@ class UserORM(NamedTuple):
     definition_id: int
     sample_id: int
     card_id: int
+    language: str

@@ -39,6 +39,7 @@ class User:
         self.definition_id: int = 0
         self.sample_id: int = 0
         self.card_id: int = 0
+        self.language: str = 'en'
 
     def __str__(self) -> str:
         return 'User(id: {}, state: {})'.format(
@@ -57,6 +58,7 @@ class User:
                 self.definition_id = response.definition_id
                 self.sample_id = response.sample_id
                 self.card_id = response.card_id
+                self.language = response.language
             except UserDoesntExistInDB:
                 pass
 
@@ -72,6 +74,7 @@ class User:
             definition_id=self.definition_id,
             sample_id=self.sample_id,
             card_id=self.card_id,
+            language=self.language,
         ))
 
     @logger
