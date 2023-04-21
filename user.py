@@ -20,7 +20,7 @@ from repetition_orm import RepetitionORM
 from super_memo import Grade, change_sm
 from sm import get_default_sm
 from datetime import date
-from constants import WITHOUT_SAMPLE, ENGLISH_LANGUAGE, RUSSIAN_LANGUAGE
+from constants import WITHOUT_SAMPLE, WITHOUT_SAMPLE_EN, ENGLISH_LANGUAGE, RUSSIAN_LANGUAGE
 
 
 MAX_SET_COUNT = 5
@@ -237,6 +237,8 @@ class User:
 
     @logger
     def add_sample(self, sample: str) -> int:
+        if sample == WITHOUT_SAMPLE[self.language]:
+            sample = WITHOUT_SAMPLE_EN
         try:
             sample_id = self.database.get_sample_id(self.term_id, sample)
         except SampleDoesntExistInDB:
@@ -251,7 +253,7 @@ class User:
     def get_card_info(self, card_id: int) -> Optional[CardInfo]:
         try:
             card_info = self.database.get_card_info(card_id)
-            if card_info.sample == WITHOUT_SAMPLE['en']:
+            if card_info.sample == WITHOUT_SAMPLE_EN:
                 card_info = CardInfo(card_info.term, card_info.definition, None)
             return card_info
         except CardDoesntExistInDB:

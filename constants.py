@@ -134,9 +134,10 @@ ENTER_SAMPLE = {
     'en': 'Enter a sample of using',
     'ru': 'Введите пример использования',
 }
+WITHOUT_SAMPLE_EN = 'Without sample'
 WITHOUT_SAMPLE = {
-    'en': 'Without sample',
-    'ru': 'Without sample',
+    'en': WITHOUT_SAMPLE_EN,
+    'ru': 'Без примера',
 }
 
 ENTER_TERM = {
