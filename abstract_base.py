@@ -49,7 +49,7 @@ class AbstractBase(ABC):
         pass
 
     @abstractmethod
-    def get_set_stat(self, user_id: str, set_id: int) -> SetStat:
+    def get_set_stat(self, user_id: str, set_id: int, repetition_interval_to_finished: int) -> SetStat:
         pass
 
     @abstractmethod

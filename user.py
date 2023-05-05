@@ -26,6 +26,7 @@ from constants import WITHOUT_SAMPLE, WITHOUT_SAMPLE_EN, ENGLISH_LANGUAGE, RUSSI
 MAX_SET_COUNT = 5
 MAX_CARD_COUNT = 1000
 TERMS_ON_PAGE = 50
+REPETITION_INTERVAL_TO_FINISHED = 365
 
 
 class User:
@@ -179,7 +180,7 @@ class User:
     def look_set_info(self, set_id: int) -> Optional[SetInfo]:
         try:
             set_orm = self.database.get_user_set_by_id(self.id, set_id)
-            set_stat = self.database.get_set_stat(self.id, set_id)
+            set_stat = self.database.get_set_stat(self.id, set_id, REPETITION_INTERVAL_TO_FINISHED)
             self.state = UserState.LOOK_SET_INFO
             self.set_id = set_orm.id
             return SetInfo(set_orm.name, set_orm.id == set_orm.origin_set_id, set_stat)

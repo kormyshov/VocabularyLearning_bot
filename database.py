@@ -220,7 +220,7 @@ class Database(AbstractBase):
         return result[0].rows[0].count
 
     @logger
-    def get_set_stat(self, user_id: str, set_id: int) -> SetStat:
+    def get_set_stat(self, user_id: str, set_id: int, repetition_interval_to_finished: int) -> SetStat:
         def select(session):
             return session.transaction().execute(
                 '''
@@ -231,7 +231,7 @@ class Database(AbstractBase):
                             CAST(`last_repetition` as Date) + DateTime::IntervalFromDays(CAST(`repetition_interval` ?? 0 as Int32)) <= CurrentUtcDate()
                         ) as `count_to_repeat`,
                         COUNT_IF(
-                            CAST(`repetition_interval` ?? 0 as Int32) > 100
+                            CAST(`repetition_interval` ?? 0 as Int32) > {}
                         ) as `count_finished`,
                     FROM (
                         SELECT `id` FROM `cards` as `a`
@@ -246,6 +246,7 @@ class Database(AbstractBase):
                     ON `a`.`id` == `b`.`card_id`
                     ;
                 '''.format(
+                    repetition_interval_to_finished,
                     set_id,
                     user_id,
                 ),
