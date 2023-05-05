@@ -21,11 +21,11 @@ from constants import (
 
 def get_main_menu(language: str) -> Tuple[str, ...]:
     return (
-        CHANGE_LANGUAGE[language],
         LOOK_SET_INFO[language],
         LEARN_SET[language],
         ADD_SET[language],
         DELETE_SET[language],
+        CHANGE_LANGUAGE[language],
     )
 
 
@@ -37,8 +37,8 @@ def get_back(language: str) -> Tuple[str, ...]:
 
 def get_back_or_without_sample(language: str) -> Tuple[str, ...]:
     return (
-        WITHOUT_SAMPLE[language],
         BACK[language],
+        WITHOUT_SAMPLE[language],
     )
 
 
