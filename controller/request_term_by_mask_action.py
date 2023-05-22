@@ -10,9 +10,21 @@ from controller.request_term_by_definition_action import RequestTermByDefinition
 
 
 def replace_term_to_mask(term: str) -> str:
+    def rand():
+        nonlocal n, i, k
+        r = random.randint(0, 999_999)
+        t = (n / 2 - k) / (n / 2) / ((n - i) ** 0.33) * 1_000_000
+        i += 1
+        if r < t:
+            k += 1
+            return 1
+        return 0
+
+    n = len(re.findall(r'\w', term))
+    i, k = 0, 0
     return re.sub(
         r'\w',
-        lambda m: m.group() if random.randint(0, 1) else '?',
+        lambda m: m.group() if rand() else '?',
         term,
     )
 
