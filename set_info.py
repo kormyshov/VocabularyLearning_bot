@@ -5,6 +5,7 @@ class SetStat(NamedTuple):
     count: int
     count_to_repeat: int
     count_finished: int
+    mean_repetition: float
 
 
 class SetInfo(NamedTuple):

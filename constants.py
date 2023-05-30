@@ -197,6 +197,6 @@ PAGE_A_OF_B = {
 }
 
 SET_STAT = {
-    'en': '{} cards\n{} cards to repeat\n{} cards are ready',
-    'ru': '{} карточек\n{} карточек для повторения\n{} карточек изучено',
+    'en': '{} cards\n{} cards to repeat\n{} cards are ready\n\n{:.2f} mean days to repeat',
+    'ru': '{} карточек\n{} карточек для повторения\n{} карточек изучено\n\n{:.2f} среднее число дней до повторения',
 }

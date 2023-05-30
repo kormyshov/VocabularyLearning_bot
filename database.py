@@ -233,6 +233,7 @@ class Database(AbstractBase):
                         COUNT_IF(
                             CAST(`repetition_interval` ?? 0 as Int32) > {}
                         ) as `count_finished`,
+                        AVG(`repetition_interval` ?? 0) as `mean_repetition`,
                     FROM (
                         SELECT `id` FROM `cards` as `a`
                         JOIN (
@@ -256,7 +257,12 @@ class Database(AbstractBase):
 
         result = self.pool.retry_operation_sync(select)
 
-        return SetStat(result[0].rows[0].count, result[0].rows[0].count_to_repeat, result[0].rows[0].count_finished)
+        return SetStat(
+            result[0].rows[0].count,
+            result[0].rows[0].count_to_repeat,
+            result[0].rows[0].count_finished,
+            result[0].rows[0].mean_repetition,
+        )
 
     @logger
     def get_term_id(self, term: str) -> int:
