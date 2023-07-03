@@ -233,7 +233,7 @@ class Database(AbstractBase):
                         COUNT_IF(
                             CAST(`repetition_interval` ?? 0 as Int32) > {}
                         ) as `count_finished`,
-                        AVG(`repetition_interval` ?? 0) as `mean_repetition`,
+                        AVG(`repetition_interval` ?? 0) ?? 0 as `mean_repetition`,
                     FROM (
                         SELECT `id` FROM `cards` as `a`
                         JOIN (
