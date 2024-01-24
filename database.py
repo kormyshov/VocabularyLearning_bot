@@ -171,8 +171,23 @@ class Database(AbstractBase):
 
     @logger
     def create_set(self, user_id: str, set_name: str) -> None:
-        def upsert(session):
+
+        while True:
             set_id = int(user_id) * 1000 + random.randint(0, 999)
+
+            def select(session):
+                return session.transaction().execute(
+                    'SELECT `id` FROM `sets` WHERE `id` == {};'.format(set_id),
+                    commit_tx=True,
+                    settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+                )
+
+            result = self.pool.retry_operation_sync(select)
+
+            if len(result[0].rows) == 0:
+                break
+
+        def upsert(session):
             return session.transaction().execute(
                 'UPSERT INTO `sets` (`id`, `user_id`, `origin_set_id`, `name`) VALUES ({}, "{}", {}, "{}");'.format(
                     set_id,
@@ -330,7 +345,21 @@ class Database(AbstractBase):
 
     @logger
     def create_definition(self, set_id: int, term_id: int, definition: str) -> int:
-        definition_id = set_id * 1000000 + random.randint(0, 999999)
+
+        while True:
+            definition_id = set_id * 1000000 + random.randint(0, 999999)
+
+            def select(session):
+                return session.transaction().execute(
+                    'SELECT `id` FROM `definitions` WHERE `id` == {};'.format(definition_id),
+                    commit_tx=True,
+                    settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+                )
+
+            result = self.pool.retry_operation_sync(select)
+
+            if len(result[0].rows) == 0:
+                break
 
         def upsert(session):
             return session.transaction().execute(
@@ -368,7 +397,21 @@ class Database(AbstractBase):
 
     @logger
     def create_sample(self, set_id: int, term_id: int, sample: str) -> int:
-        sample_id = set_id * 1000000 + random.randint(0, 999999)
+
+        while True:
+            sample_id = set_id * 1000000 + random.randint(0, 999999)
+
+            def select(session):
+                return session.transaction().execute(
+                    'SELECT `id` FROM `samples` WHERE `id` == {};'.format(sample_id),
+                    commit_tx=True,
+                    settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+                )
+
+            result = self.pool.retry_operation_sync(select)
+
+            if len(result[0].rows) == 0:
+                break
 
         def upsert(session):
             return session.transaction().execute(
@@ -387,7 +430,21 @@ class Database(AbstractBase):
 
     @logger
     def create_card(self, set_id: int, term_id: int, definition_id: int, sample_id: int) -> int:
-        card_id = set_id * 1000000 + random.randint(0, 999999)
+
+        while True:
+            card_id = set_id * 1000000 + random.randint(0, 999999)
+
+            def select(session):
+                return session.transaction().execute(
+                    'SELECT `id` FROM `cards` WHERE `id` == {};'.format(card_id),
+                    commit_tx=True,
+                    settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+                )
+
+            result = self.pool.retry_operation_sync(select)
+
+            if len(result[0].rows) == 0:
+                break
 
         def upsert(session):
             return session.transaction().execute(
