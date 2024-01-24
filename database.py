@@ -282,7 +282,21 @@ class Database(AbstractBase):
 
     @logger
     def create_term(self, set_id: int, term: str) -> int:
-        term_id = set_id * 1000000 + random.randint(0, 999999)
+
+        while True:
+            term_id = set_id * 1000000 + random.randint(0, 999999)
+
+            def select(session):
+                return session.transaction().execute(
+                    'SELECT `id` FROM `terms` WHERE `id` == {};'.format(term_id),
+                    commit_tx=True,
+                    settings=ydb.BaseRequestSettings().with_timeout(3).with_operation_timeout(2)
+                )
+
+            result = self.pool.retry_operation_sync(select)
+
+            if len(result[0].rows) == 0:
+                break
 
         def upsert(session):
             return session.transaction().execute(
